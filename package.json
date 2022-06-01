@@ -1,0 +1,50 @@
+{
+  "name": "apolo",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "watch": "webpack --config webpack.common.js --watch",
+    "package-win": "electron-packager . apollo-12 --overwrite --asar --platform=win32 --arch=ia32 --icon=public/rede.ico --prune=true --out=release-builds --version-string.CompanyName=Rede Brasil RP --version-string.FileDescription=sistema de agendamento --version-string.ProductName=\"Apolo12\"",
+    "package-linux": "electron-packager . apollo-12 --overwrite --asar=true --platform=linux --arch=x64 --icon=public/rede.ico --prune=true --out=release-builds",
+    "create-installer-win": "node installers/windows/createinstaller.js"
+  },
+  "keywords": [],
+  "author": "Alexandre Henrique da Rocha Araújo",
+  "license": "MIT",
+  "dependencies": {
+    "@chakra-ui/react": "^2.1.2",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@sideway/address": "^5.0.0",
+    "@sideway/formula": "^3.0.0",
+    "@sideway/pinpoint": "^2.0.0",
+    "axios": "^0.27.2",
+    "cpf-cnpj-validator": "^1.0.3",
+    "framer-motion": "^6.3.6",
+    "joi": "^17.6.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-icons": "^4.4.0",
+    "react-router-dom": "^6.3.0",
+    "react-simple-keyboard": "^3.4.141",
+    "remask": "^0.1.0-alpha.5",
+    "sweetalert": "^2.1.2",
+    "universal-cookie": "^4.0.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "electron": "^19.0.1",
+    "electron-packager": "^15.5.1",
+    "electron-winstaller": "^5.0.0",
+    "sass": "^1.52.1",
+    "sass-loader": "^13.0.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
+  }
+}
