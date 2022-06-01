@@ -13,23 +13,22 @@ import Fim from '../final/index'
 
 export default function AppRoutes() {
      const nanvigate = useNavigate();
-     
-    
+
+
      return (
-
-          <Routes>
-               <Route index element={<Intro />} />
-               <Route path="/01" element={<Telefone />} />
-               <Route path="/02" element={<Tipo />} />
-               <Route path="/pj" element={<A1PJ />} />
-               <Route path="/pf" element={<A1PF />} />
-               <Route path="/agenda" element={<Agenda />} />
-               <Route path="/resumo" element={<Resumo />} />
-               <Route path="/fim" element={<Fim />} />
-               <Route path="/" element={<Intro />} />
-          </Routes>
-
+          <>
+               <Routes>
+                    <Route path="/" element={<Intro />} />
+                    <Route exact path="/01" element={<Telefone />} />
+                    <Route exact path="/02" element={<Tipo />} />
+                    <Route exact path="/pj" element={<A1PJ />} />
+                    <Route exact path="/pf" element={<A1PF />} />
+                    <Route exact path="/agenda" element={<Agenda />} />
+                    <Route exact path="/resumo" element={<Resumo />} />
+                    <Route exact path="/fim" element={<Fim />} />
+               </Routes>
+          </>
      );
-    
+
 
 }
