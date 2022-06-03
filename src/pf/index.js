@@ -11,6 +11,7 @@ import Cookies from "universal-cookie";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useNavigate } from "react-router-dom";
+import { useIdleTimer } from 'react-idle-timer';
 
 
 
@@ -26,6 +27,7 @@ export default function A1PJ() {
     const [inputs, setInputs] = useState({});
     const [inputName, setInputName] = useState("default");
     const keyboard = useRef();
+    const timeout = 2 * 60 * 1000;
 
     const cookies = new Cookies();
 
@@ -44,14 +46,12 @@ export default function A1PJ() {
         />
     )
 
-   
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = useState(<OverlayOne />)
 
     useEffect(() => {
         console.log("inputsss", inputs);
     }, [inputs]);
-
 
     const onChangeAll = (inputs) => {
         console.log("Inputs changed", inputs);
@@ -60,12 +60,10 @@ export default function A1PJ() {
 
     const onChangeInput = (event) => {
         const inputVal = event.target.value;
-
         setInputs({
             ...inputs,
             [inputName]: inputVal
         });
-
         keyboard.current.setInput(inputVal);
     };
 
@@ -78,7 +76,6 @@ export default function A1PJ() {
         setNome(nome)
         const dataNascimento = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
         setDataNascimento(dataNascimento)
-
     }, [inputs])
 
     const valid = cpf.isValid(cpfClient);
@@ -93,7 +90,6 @@ export default function A1PJ() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
-
         } else if (cpfClient.length < 10) {
             swal({
                 icon: "error",
@@ -129,6 +125,17 @@ export default function A1PJ() {
             }, 250);
         }
     }
+
+    const handleOnIdle = () => {
+        nanvigate('/')
+    };
+    const { getRemainingTime } = useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle
+    });
+    useEffect(() => {
+        getRemainingTime();
+    }, []);
 
     return (
         <>

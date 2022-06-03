@@ -8,10 +8,10 @@ import { useEffect, useState, useRef } from "react";
 import { mask, unMask } from 'remask';
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import swal from 'sweetalert';
-import Cookies from "universal-cookie";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useNavigate } from "react-router-dom";
+import { useIdleTimer } from 'react-idle-timer';
 
 
 
@@ -19,15 +19,16 @@ import { useNavigate } from "react-router-dom";
 export default function A1PJ() {
 
     const nanvigate = useNavigate();
-    const [cpfClient, setCpfCliente] = useState('');
-    const [rg, setRg] = useState('');
-    const [nome, setNome] = useState('');
-    const [dataNascimento, setDataNascimento] = useState('');
-    const [cnpjClient, setCnpjCliente] = useState('');
+    const [cpfCliente, setCpfCliente] = useState('');
+    const [rgCliente, setRgClienete] = useState('');
+    const [nomeCliente, setNomeCliente] = useState('');
+    const [dataNascimentoCli, setDataNascimentoCli] = useState('');
+    const [cnpjCliente, setCnpjCliente] = useState('');
     const [show, setShow] = useState(false);
     const [inputs, setInputs] = useState({});
     const [inputName, setInputName] = useState("default");
     const keyboard = useRef();
+    const timeout = 2 * 60 * 1000;
 
 
     const cookies = new Cookies();
@@ -50,19 +51,14 @@ export default function A1PJ() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = useState(<OverlayOne />)
 
-
-
     useEffect(() => {
         console.log("inputsss", inputs);
     }, [inputs]);
-
 
     const onChangeAll = (inputs) => {
         console.log("Inputs changed", inputs);
         setInputs(inputs);
     };
-
-
 
     const onChangeInput = (event) => {
         const inputVal = event.target.value;
@@ -76,27 +72,24 @@ export default function A1PJ() {
     };
 
     useEffect(() => {
-        const cpf = inputs.cpf === undefined ? '' : inputs.cpf;
+        const cpf = inputs.cpf;
         setCpfCliente(cpf)
-        const rg = inputs.rg === undefined ? '' : inputs.rg;
-        setRg(rg)
-        const nome = inputs.nome === undefined ? '' : inputs.nome;
-        setNome(nome)
-        const dataNascimento = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
-        setDataNascimento(dataNascimento)
-        const cnpj = inputs.cnpj === undefined ? '' : inputs.cnpj;
+        const rg = inputs.rg;
+        setRgClienete(rg)
+        const nome = inputs.nome;
+        setNomeCliente(nome)
+        const dataNascimento = inputs.datanscimento;
+        setDataNascimentoCli(dataNascimento)
+        const cnpj = inputs.cnpj;
         setCnpjCliente(cnpj)
     }, [inputs])
-
-
-
 
     const valid = cpf.isValid(cpfClient);
     const validCnpj = cnpj.isValid(cnpjClient);
 
     const send = () => {
 
-        if (inputs.cpf === '' || rg === '' || nome === '' || dataNascimento === '' || cnpjClient === '') {
+        if (cpfCliente === '' || rgCliente === '' || nomeCliente === '' || dataNascimentoCli === '' || cnpjCliente === '') {
             swal({
                 icon: "error",
                 text: "Preencha todos os campos",
@@ -105,7 +98,7 @@ export default function A1PJ() {
                 closeOnEsc: false,
             });
 
-        } else if (cpfClient.length < 10) {
+        } else if (cpfCliente.length < 10) {
             swal({
                 icon: "error",
                 text: "Campo CPF imcompleto",
@@ -121,7 +114,7 @@ export default function A1PJ() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
-        } else if (rg.length < 9) {
+        } else if (rgCliente.length < 9) {
             swal({
                 icon: "error",
                 text: "Campo RG imcompleto",
@@ -129,7 +122,7 @@ export default function A1PJ() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
-        } else if (cnpjClient.length < 13) {
+        } else if (cnpjCliente.length < 13) {
             swal({
                 icon: "error",
                 text: "Campo CNPJ imcompleto",
@@ -147,17 +140,28 @@ export default function A1PJ() {
             });
         } else {
             onOpen()
-            cookies.set('nome', nome, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('cpf', cpfClient, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('rg', rg, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('dataNascimento', dataNascimento, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('cnpj', cnpjClient, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
+            cookies.set('nome', nomeCliente, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
+            cookies.set('cpf', cpfCliente, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
+            cookies.set('rg', rgCliente, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
+            cookies.set('dataNascimento', dataNascimentoCli, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
+            cookies.set('cnpj', cnpjCliente, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
 
             setTimeout(() => {
                 nanvigate('/agenda');
             }, 250);
         }
     }
+
+    const handleOnIdle = () => {
+        nanvigate('/')
+    };
+    const { getRemainingTime } = useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle
+    });
+    useEffect(() => {
+        getRemainingTime();
+    }, []);
 
     return (
         <>

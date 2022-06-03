@@ -10,6 +10,7 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useNavigate } from 'react-router-dom';
 import "./index.css";
+import { useIdleTimer } from 'react-idle-timer';
 
 
 export default function Telefone() {
@@ -21,25 +22,19 @@ export default function Telefone() {
     const [inputName, setInputName] = useState("");
     const keyboard = useRef();
     const cookies = new Cookies();
-
-
+    const timeout = 2 * 60 * 1000;
+    
     const OverlayOne = () => (
         <ModalOverlay
             bg='greem.300'
             backdropFilter='blur(10px) hue-rotate(90deg)'
-
         />
     )
-
-
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = useState(<OverlayOne />)
 
     useEffect(() => {
-        setTimeout(() => {
-            nanvigate('/')
-        }, 900000);
         console.log("inputsss", inputs);
     }, [inputs]);
 
@@ -49,15 +44,12 @@ export default function Telefone() {
         setInputs(inputs);
     };
 
-
     const onChangeInput = (event) => {
         const inputVal = event.target.value;
-
         setInputs({
             ...inputs,
             [inputName]: inputVal
         });
-
         keyboard.current.setInput(inputVal);
     };
 
@@ -67,11 +59,8 @@ export default function Telefone() {
     }, [inputs])
 
     function SalvaTel() {
-
         setOverlay(<OverlayOne />)
-
         var nuber = 55 + inputs.telefone;
-
         function alerta() {
             swal({
                 title: "Opps...!!",
@@ -80,7 +69,6 @@ export default function Telefone() {
                 dangerMode: true,
             })
         }
-
         function alerta2() {
             swal({
                 title: "Opps...!!",
@@ -89,7 +77,6 @@ export default function Telefone() {
                 dangerMode: true,
             })
         }
-
         var config = {
             method: 'post',
             url: `https://api.zapstar.com.br/core/v2/api/wa-number-check/${nuber}`,
@@ -166,11 +153,20 @@ export default function Telefone() {
                     alerta2();
                 });
         }
-
     }
 
+    const handleOnIdle = () => {
+        nanvigate('/')
+    };
 
+    const { getRemainingTime } = useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle
+    });
 
+    useEffect(() => {
+        getRemainingTime();
+    }, []);
 
     return (
         <>

@@ -3,6 +3,7 @@ import { Box, Button, Center, Container, Flex, Modal, ModalContent, ModalOverlay
 import Cookies from 'universal-cookie';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useIdleTimer } from 'react-idle-timer';
 
 
 
@@ -10,13 +11,9 @@ export default function TipoDeCertificado() {
 
     const nanvigate = useNavigate();
     const cookies = new Cookies();
+    const timeout = 2 * 60 * 1000;
 
-   
-    
     useEffect(() => {
-        setTimeout(() => {
-            nanvigate('/')
-        }, 900000);
         setOverlay(<OverlayOne />)
     }, [])
 
@@ -45,6 +42,17 @@ export default function TipoDeCertificado() {
             nanvigate('/pj');
         }, 100);
     }
+
+    const handleOnIdle = () => {
+        nanvigate('/')
+    };
+    const { getRemainingTime } = useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle
+    });
+    useEffect(() => {
+        getRemainingTime();
+    }, []);
 
     return (
         <>

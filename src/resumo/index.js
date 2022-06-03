@@ -15,7 +15,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
 import { useNavigate } from "react-router-dom";
-
+import { useIdleTimer } from 'react-idle-timer';
 
 const id = 16
 const cookies = new Cookies();
@@ -31,7 +31,7 @@ export default function Resumo() {
     const [razaoSocial, setRazaoSocial] = useState('');
     const [Data, setData] = useState('');
     const [Datanasc, setDatanasc] = useState('');
-    
+    const timeout = 2 * 60 * 1000;
    
     const setnome = cookies.get('nome')
     const nome = setnome === undefined ? '' : setnome;
@@ -94,6 +94,8 @@ export default function Resumo() {
         });
     }
 
+    console.log(setnome)
+
     const editar = () => {
         onOpen()
         cookies.remove('nome');
@@ -152,6 +154,17 @@ export default function Resumo() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = useState(<OverlayOne />)
 
+    const handleOnIdle = () => {
+        nanvigate('/')
+    };
+    const { getRemainingTime } = useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle
+    });
+    useEffect(() => {
+        getRemainingTime();
+    }, []);
+    
     return (
         <Box
             display="flex"

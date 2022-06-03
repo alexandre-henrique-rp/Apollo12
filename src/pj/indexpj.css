@@ -1,0 +1,32 @@
+.simple-keyboard {
+    max-width: 850px;
+}
+
+/*
+  Theme: myTheme1
+*/
+.simple-keyboard.myTheme1 {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.simple-keyboard.myTheme1 .hg-button {
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.simple-keyboard.myTheme1 .hg-button:active {
+    background: #00713C;
+    color: white;
+}
+
+#root .simple-keyboard.myTheme1+.simple-keyboard-preview {
+    background: #00713C;
+}

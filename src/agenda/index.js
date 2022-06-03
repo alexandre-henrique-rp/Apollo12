@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { useIdleTimer } from 'react-idle-timer';
+
 
 export default function Agenda() {
 
@@ -12,10 +14,7 @@ export default function Agenda() {
     const [Hora, setHora] = useState(0);
     // const [ind, setInd] = useState(0);
     const nanvigate = useNavigate();
-
-    setTimeout(() => {
-        nanvigate('/')
-    }, 900000);
+    const timeout = 2 * 60 * 1000;
 
     var data = new Date();
     var data2 = new Date();
@@ -90,26 +89,11 @@ export default function Agenda() {
     var semana3 = data.getDay() + 1;
     var semana3F = semana3 === 0 ? 'Domingo' : semana3 === 1 ? 'Segunda-feira' : semana3 === 2 ? 'Terça-feira' : semana3 === 3 ? 'Quarta-feira' : semana3 === 4 ? 'Quinta-feira' : semana3 === 5 ? 'Sexta-feira' : semana3 === 6 ? 'Sábado' : 'Dia inválido';
 
-
-    //horas
-    // var dataDodia = `${semanaB} - ${dayB}`;
-    // var dataDodia2 = `${semana2} - ${dia2}`;
-    // var min = data3.getMinutes() <= 15 ? '00' : data3.getMinutes() > 15 && data3.getMinutes() <= 30 ? '30' : '00';
-    // var min2 = data3.getMinutes();
-    // var hour = data3.getHours();
-    // var hour2 = data3.getHours() + 1;
-    // var time = hour2 + ":" + min;
-    // var time2 = hour + ":" + min;
-
-
     const horario = ['09:00', '09:30', '10:00', '10:30', '11:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'];
 
     const capareI = horario.indexOf('09:00')
 
     // const verificar = time === '11:30' ? 6 : time === '12:00' ? 6 : time === '12:30' ? 6 : time === '13:00' ? 7 : time === '13:30' ? 7 : 0;
-
-
-
 
     const horasFilter = capareI + Hora
 
@@ -126,7 +110,6 @@ export default function Agenda() {
             setHora(Hora + 1);
         }
     }
-
     function PrevHora() {
         if (horasFilter === 0) {
             setHora(9)
@@ -166,7 +149,16 @@ export default function Agenda() {
         }, 250);
     }
 
-
+    const handleOnIdle = () => {
+        nanvigate('/')
+    };
+    const { getRemainingTime } = useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle
+    });
+    useEffect(() => {
+        getRemainingTime();
+    }, []);
 
     return (
         <>
