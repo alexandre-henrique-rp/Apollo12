@@ -11,11 +11,12 @@ export default function TipoDeCertificado() {
     const nanvigate = useNavigate();
     const cookies = new Cookies();
 
-    setTimeout(() => {
-        nanvigate('/')
-    }, 55000);
+   
     
     useEffect(() => {
+        setTimeout(() => {
+            nanvigate('/')
+        }, 900000);
         setOverlay(<OverlayOne />)
     }, [])
 

@@ -15,7 +15,7 @@ export default function Agenda() {
 
     setTimeout(() => {
         nanvigate('/')
-    }, 55000);
+    }, 900000);
 
     var data = new Date();
     var data2 = new Date();

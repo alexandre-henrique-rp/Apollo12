@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
+
 export default function A1PJ() {
 
     const nanvigate = useNavigate();
@@ -31,12 +32,12 @@ export default function A1PJ() {
 
     const cookies = new Cookies();
 
-    setTimeout(() => {
-        nanvigate('/')
-    }, 55000);
     
     useEffect(() => {
         setOverlay(<OverlayOne />);
+        setTimeout(() => {
+            nanvigate('/')
+        }, 900000);
     }, [])
 
     const OverlayOne = () => (
@@ -170,7 +171,7 @@ export default function A1PJ() {
             >
 
                 <Box
-                    mt={56}
+                    mt={48}
                 >
                     <InputGroup>
                         <InputLeftElement
@@ -355,11 +356,10 @@ export default function A1PJ() {
                 </div>
 
                 <Flex
-                    mt={40}
+                    mt={12}
                     justifyContent='center'
                     w='100vw'
                     h='15rm'
-                    fontSize={26}
                 >
                     {show && (
                         <Keyboard

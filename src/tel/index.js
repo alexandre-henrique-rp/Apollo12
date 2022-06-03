@@ -9,6 +9,7 @@ import Cookies from 'universal-cookie';
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useNavigate } from 'react-router-dom';
+import "./index.css";
 
 
 export default function Telefone() {
@@ -30,14 +31,15 @@ export default function Telefone() {
         />
     )
 
-    setTimeout(() => {
-        nanvigate('/')
-    }, 55000);
+
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = useState(<OverlayOne />)
 
     useEffect(() => {
+        setTimeout(() => {
+            nanvigate('/')
+        }, 900000);
         console.log("inputsss", inputs);
     }, [inputs]);
 
@@ -67,7 +69,7 @@ export default function Telefone() {
     function SalvaTel() {
 
         setOverlay(<OverlayOne />)
-        
+
         var nuber = 55 + inputs.telefone;
 
         function alerta() {
@@ -75,6 +77,15 @@ export default function Telefone() {
                 title: "Opps...!!",
                 text: `Parece que o telefone ${inputs.telefone} não tem Watsapp,\n Por favor tente outro telefone`,
                 icon: "error",
+                dangerMode: true,
+            })
+        }
+
+        function alerta2() {
+            swal({
+                title: "Opps...!!",
+                text: `Parece que o telefone ${inputs.telefone} ja esta em uma coversa,\n Por favor agarde que uma atendente entre em contato`,
+                icon: "warning",
                 dangerMode: true,
             })
         }
@@ -97,10 +108,14 @@ export default function Telefone() {
                     cookies.set('telM', telM, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
                     enviarSms()
                     onOpen()
+                    setTimeout(() => {
+                        nanvigate('/02');
+                    }, 3000);
                 } else {
                     alerta();
                 }
             })
+
             .catch(function (error) {
                 console.log(error);
                 alerta();
@@ -108,7 +123,7 @@ export default function Telefone() {
 
         async function enviarSms() {
 
-            
+
 
             var nuber = 55 + inputs.telefone;
 
@@ -141,14 +156,14 @@ export default function Telefone() {
                         redirect: 'follow'
                     };
 
-                    fetch(`https://api.zapstar.com.br/core/v2/api/chats/${JSON.stringify(response.data.chatId) }/send-menu?menuId=62448d08c53044fe45dc60cb`, requestOptions)
+                    fetch(`https://api.zapstar.com.br/core/v2/api/chats/${JSON.stringify(response.data.chatId)}/send-menu?menuId=62448d08c53044fe45dc60cb`, requestOptions)
                         .then(response => response.text())
-                        .then(() => nanvigate('/02'));
+
                 })
                 .catch(function (error) {
                     console.log(error.message);
                     console.log(nuber)
-                    alerta();
+                    alerta2();
                 });
         }
 
@@ -181,7 +196,7 @@ export default function Telefone() {
                             Infome seu whatsApp !!
                         </Heading>
                         <chakra.p
-                           fontSize='xl' 
+                            fontSize='xl'
                         >
                             seu whatsApp é muito importante para video conferencia
                         </chakra.p>
@@ -243,17 +258,16 @@ export default function Telefone() {
                 </Box>
             </Flex>
             <Flex
-                mt={72}
+                mt={40}
                 justifyContent='center'
                 w='full'
                 h='15rm'
-                fontSize={26}
                 px={10}
             >
                 {show && (
                     <Keyboard
                         keyboardRef={(r) => (keyboard.current = r)}
-                        theme={"hg-theme-default myTheme2"}
+                        theme={"hg-theme-default myTheme1"}
                         onChangeAll={onChangeAll}
                         inputName={inputName}
                         layout={{
@@ -261,7 +275,7 @@ export default function Telefone() {
                                 "7 8 9",
                                 "4 5 6",
                                 "1 2 3",
-                                " 0 {enter}"
+                                " 0 {bksp}"
                             ]
                         }}
                     />

@@ -32,10 +32,7 @@ export default function Resumo() {
     const [Data, setData] = useState('');
     const [Datanasc, setDatanasc] = useState('');
     
-    setTimeout(() => {
-        nanvigate('/')
-    }, 55000);
-
+   
     const setnome = cookies.get('nome')
     const nome = setnome === undefined ? '' : setnome;
     const setcpf = cookies.get('cpf')
@@ -134,6 +131,9 @@ export default function Resumo() {
     }
     
     useEffect(() => {
+        setTimeout(() => {
+            nanvigate('/')
+        }, 90000);
         
         setDatanasc(dataNascimento)
         setData(dataAg)

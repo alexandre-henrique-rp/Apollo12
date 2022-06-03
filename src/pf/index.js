@@ -30,6 +30,10 @@ export default function A1PJ() {
     const cookies = new Cookies();
 
     useEffect(() => {
+        setTimeout(() => {
+            nanvigate('/')
+        }, 900000);
+
         setOverlay(<OverlayOne />);
     }, [])
 
@@ -40,10 +44,7 @@ export default function A1PJ() {
         />
     )
 
-    setTimeout(() => {
-        nanvigate('/')
-    }, 55000);
-
+   
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [overlay, setOverlay] = useState(<OverlayOne />)
 
@@ -296,11 +297,11 @@ export default function A1PJ() {
                 </div>
 
                 <Flex
-                    mt={40}
+                    mt={12}
                     justifyContent='center'
                     w='100vw'
                     h='15rm'
-                    fontSize={26}
+                    
                 >
                     {show && (
                         <Keyboard
