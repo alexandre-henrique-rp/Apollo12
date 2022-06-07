@@ -177,7 +177,6 @@ export default function A1PJ() {
                 alignItems='center'
                 justifyContent='center'
                 w='95%'
-
                 gap={5}
             >
 
@@ -193,8 +192,11 @@ export default function A1PJ() {
                             fontSize='3rem'
                             paddingLeft='0.3rem'
                             marginRight='1rem'
-                        ><GoPerson /></InputLeftElement>
+                        >
+                            <GoPerson />
+                        </InputLeftElement>
                         <Input
+                            width='617px'
                             height='65px'
                             type='text'
                             placeholder='NOME COMPLETO'
@@ -205,7 +207,7 @@ export default function A1PJ() {
                             focusBorderColor='none'
                             textAlign={'center'}
                             value={(() => {
-                                const valei = inputs.nome === undefined ? '' : inputs.nome;
+                                const valei = inputs.nome === undefined ? '' : inputs.nome;       
                                 return valei;
                             })()}
                             onChange={onChangeInput}
@@ -222,7 +224,15 @@ export default function A1PJ() {
                         w="4.5rem"
                         h="4.5rem"
                         onClick={(() => {
-                            setInputs({ ...inputs, nome: '' });
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "nome": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
                         })}
                     >
                         <IoMdClose
@@ -239,9 +249,11 @@ export default function A1PJ() {
                             fontSize='3rem'
                             paddingLeft='0.3rem'
                             marginRight='1rem'
-                        ><FaIdCardAlt /></InputLeftElement>
+                        >
+                            <FaIdCardAlt />
+                        </InputLeftElement>
                         <Input
-                            width='600px'
+                            width='617px'
                             height='65px'
                             type='text'
                             fontSize='3rem'
@@ -253,10 +265,11 @@ export default function A1PJ() {
                             textAlign={'center'}
                             maxLength={14}
                             value={(() => {
-                                const valei = inputs.rg === undefined ? '' : inputs.rg;
+                                const valei1 = inputs.rg === undefined ? '' : inputs.rg;
+                                const valei = valei1.length > 14 ? valei1.substring(0, 14) : valei1;
                                 return valei;
                             })()}
-                            onChange={onChangeInput}
+                            onChange={onChangeInput}                                
                             onFocus={() => {
                                 setShow(true)
                                 setInputName("rg");
@@ -269,7 +282,17 @@ export default function A1PJ() {
                         rounded='full'
                         w="4.5rem"
                         h="4.5rem"
-                        onClick={onChangeClear}
+                        onClick={(() => {
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "rg": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
+                        })}
                     >
                         <IoMdClose
                             color='white'
@@ -285,9 +308,11 @@ export default function A1PJ() {
                             fontSize='3rem'
                             paddingLeft='0.3rem'
                             marginRight='1rem'
-                        ><FaIdCard /></InputLeftElement>
+                        >
+                            <FaIdCard />
+                        </InputLeftElement>
                         <Input
-                            width='600px'
+                            width='617px'
                             height='65px'
                             type='text'
                             fontSize='3rem'
@@ -317,7 +342,17 @@ export default function A1PJ() {
                         rounded='full'
                         w="4.5rem"
                         h="4.5rem"
-                        onClick={onChangeClear}
+                        onClick={(() => {
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "cpf": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
+                        })}
                     >
                         <IoMdClose
                             color='white'
@@ -335,7 +370,7 @@ export default function A1PJ() {
                             marginRight='1rem'
                         ><BsFillCalendar2WeekFill /></InputLeftElement>
                         <Input
-                            width='600px'
+                            width='617px'
                             height='65px'
                             type='text'
                             fontSize='3rem'
@@ -365,7 +400,17 @@ export default function A1PJ() {
                         rounded='full'
                         w="4.5rem"
                         h="4.5rem"
-                        onClick={onChangeClear}
+                        onClick={(() => {
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "datanscimento": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
+                        })}
                     >
                         <IoMdClose
                             color='white'
@@ -382,9 +427,11 @@ export default function A1PJ() {
                             paddingLeft='0.3rem'
                             marginRight='1rem'
 
-                        ><GiFactory /></InputLeftElement>
+                        >
+                            <GiFactory />
+                        </InputLeftElement>
                         <Input
-                            width='600px'
+                            width='617px'
                             height='65px'
                             type='text'
                             fontSize='3rem'
@@ -414,7 +461,17 @@ export default function A1PJ() {
                         rounded='full'
                         w="4.5rem"
                         h="4.5rem"
-                        onClick={onChangeClear}
+                        onClick={(() => {
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "cnpj": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
+                        })}
                     >
                         <IoMdClose
                             color='white'

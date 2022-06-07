@@ -105,12 +105,6 @@ export default function Resumo() {
 
     console.log(setnome)
 
-    const editar = () => {
-        onOpen()
-        setTimeout(() => {
-            nanvigate('/02');
-        }, 250);
-    }
 
     const pagar = () => {
         onOpen()
@@ -267,21 +261,10 @@ export default function Resumo() {
                 my={6}
                 px={8}
                 pt={20}
-                justifyContent='space-between'
+                justifyContent='flex-end'
                 alignItems='center'
             >
-                <Button
-                    bg='whatsapp.800'
-                    _hover={{ bg: 'whatsapp.900' }}
-                    color='white'
-                    w={72}
-                    h={24}
-                    fontSize={56}
-                    rounded={40}
-                    onClick={editar}
-                >
-                    EDITAR
-                </Button>
+               
                 <Button
                     bg='whatsapp.800'
                     _hover={{ bg: 'whatsapp.900' }}

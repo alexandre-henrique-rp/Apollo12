@@ -3,6 +3,7 @@ import { Box, Button, Flex, Input, InputGroup, InputLeftElement, Modal, ModalCon
 import { GoPerson } from "react-icons/go";
 import { FaIdCard, FaIdCardAlt } from "react-icons/fa";
 import { BsFillCalendar2WeekFill } from "react-icons/bs";
+
 import { useEffect, useState, useRef } from "react";
 import { mask, unMask } from 'remask';
 import { cpf } from 'cpf-cnpj-validator';
@@ -11,29 +12,30 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from 'react-idle-timer';
+import { IoMdClose } from "react-icons/io";
 
 
 
 
-export default function A1PJ() {
+export default function A1PF() {
 
     const nanvigate = useNavigate();
-    const [cpfClient, setCpfCliente] = useState('');
-    const [rg, setRg] = useState('');
-    const [nome, setNome] = useState('');
-    const [dataNascimento, setDataNascimento] = useState('');
+    const [cpfCliente, setCpfCliente] = useState('');
+    const [rgCliente, setRgClienete] = useState('');
+    const [nomeCliente, setNomeCliente] = useState('');
+    const [dataNascimentoCli, setDataNascimentoCli] = useState('');
     const [show, setShow] = useState(false);
     const [inputs, setInputs] = useState({});
     const [inputName, setInputName] = useState("default");
     const keyboard = useRef();
     const timeout = 2 * 60 * 1000;
 
+
     useEffect(() => {
+        setOverlay(<OverlayOne />);
         setTimeout(() => {
             nanvigate('/')
         }, 900000);
-
-        setOverlay(<OverlayOne />);
     }, [])
 
     const OverlayOne = () => (
@@ -57,29 +59,31 @@ export default function A1PJ() {
 
     const onChangeInput = (event) => {
         const inputVal = event.target.value;
+
         setInputs({
             ...inputs,
             [inputName]: inputVal
         });
+
         keyboard.current.setInput(inputVal);
     };
 
     useEffect(() => {
-        const cpf = inputs.cpf === undefined ? '' : inputs.cpf;
+        const cpf = inputs.cpf;
         setCpfCliente(cpf)
-        const rg = inputs.rg === undefined ? '' : inputs.rg;
-        setRg(rg)
-        const nome = inputs.nome === undefined ? '' : inputs.nome;
-        setNome(nome)
-        const dataNascimento = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
-        setDataNascimento(dataNascimento)
+        const rg = inputs.rg;
+        setRgClienete(rg)
+        const nome = inputs.nome;
+        setNomeCliente(nome)
+        const dataNascimento = inputs.datanscimento;
+        setDataNascimentoCli(dataNascimento)
     }, [inputs])
 
-    const valid = cpf.isValid(cpfClient);
-
+    const valid = cpf.isValid(cpfCliente);
+    
     const send = () => {
 
-        if (inputs.cpf === '' || rg === '' || nome === '' || dataNascimento === '') {
+        if (cpfCliente === '' || rgCliente === '' || nomeCliente === '' || dataNascimentoCli === '') {
             swal({
                 icon: "error",
                 text: "Preencha todos os campos",
@@ -87,7 +91,8 @@ export default function A1PJ() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
-        } else if (cpfClient.length < 10) {
+
+        } else if (cpfCliente.length < 10) {
             swal({
                 icon: "error",
                 text: "Campo CPF imcompleto",
@@ -103,7 +108,7 @@ export default function A1PJ() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
-        } else if (rg.length < 9) {
+        } else if (rgCliente.length < 9) {
             swal({
                 icon: "error",
                 text: "Campo RG imcompleto",
@@ -111,12 +116,13 @@ export default function A1PJ() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
+        
         } else {
             onOpen()
-            localStorage.setItem('cpf', cpfClient);
-            localStorage.setItem('rg', rg);
-            localStorage.setItem('nome', nome);
-            localStorage.setItem('dtNs', dataNascimento);
+            localStorage.setItem('cpf', cpfCliente);
+            localStorage.setItem('rg', rgCliente);
+            localStorage.setItem('nome', nomeCliente);
+            localStorage.setItem('dtNs', dataNascimentoCli);
             setTimeout(() => {
                 nanvigate('/agenda');
             }, 250);
@@ -141,13 +147,15 @@ export default function A1PJ() {
                 flexDirection='column'
                 alignItems='center'
                 justifyContent='center'
-                w='100%'
-
+                w='95%'
                 gap={5}
             >
 
                 <Box
-                    mt={56}
+                    mt={48}
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
                 >
                     <InputGroup>
                         <InputLeftElement
@@ -159,14 +167,12 @@ export default function A1PJ() {
                             <GoPerson />
                         </InputLeftElement>
                         <Input
-                            width='600px'
+                            width='617px'
                             height='65px'
                             type='text'
                             placeholder='NOME COMPLETO'
                             fontSize='1.5rem'
-                            _placeholder={{
-                                fontSize: '2rem'
-                            }}
+                            _placeholder={{ fontSize: '2rem' }}
                             paddingLeft='4rem'
                             borderColor='#00713c'
                             focusBorderColor='none'
@@ -182,8 +188,32 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={(() => {
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "nome": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
+                        })}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
                 </Box>
-                <div>
+                <Flex>
                     <InputGroup>
                         <InputLeftElement
                             height='65px'
@@ -194,7 +224,7 @@ export default function A1PJ() {
                             <FaIdCardAlt />
                         </InputLeftElement>
                         <Input
-                            width='600px'
+                            width='617px'
                             height='65px'
                             type='text'
                             fontSize='3rem'
@@ -206,7 +236,8 @@ export default function A1PJ() {
                             textAlign={'center'}
                             maxLength={14}
                             value={(() => {
-                                const valei = inputs.rg === undefined ? '' : inputs.rg;
+                                const valei1 = inputs.rg === undefined ? '' : inputs.rg;
+                                const valei = valei1.length > 14 ? valei1.substring(0, 14) : valei1;
                                 return valei;
                             })()}
                             onChange={onChangeInput}
@@ -216,17 +247,43 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
-                </div>
-                <div>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={(() => {
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "rg": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
+                        })}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
+                </Flex>
+                <Flex>
                     <InputGroup>
                         <InputLeftElement
                             height='65px'
                             fontSize='3rem'
                             paddingLeft='0.3rem'
                             marginRight='1rem'
-                        ><FaIdCard /></InputLeftElement>
+                        >
+                            <FaIdCard />
+                        </InputLeftElement>
                         <Input
-                            width='600px'
+                            width='617px'
                             height='65px'
                             type='text'
                             fontSize='3rem'
@@ -250,17 +307,43 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
-                </div>
-                <div>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={(() => {
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "cpf": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
+                        })}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
+                </Flex>
+                <Flex>
                     <InputGroup>
                         <InputLeftElement
                             height='65px'
                             fontSize='3rem'
                             paddingLeft='0.3rem'
                             marginRight='1rem'
-                        ><BsFillCalendar2WeekFill /></InputLeftElement>
+                        >
+                            <BsFillCalendar2WeekFill />
+                        </InputLeftElement>
                         <Input
-                            width='600px'
+                            width='617px'
                             height='65px'
                             type='text'
                             fontSize='3rem'
@@ -284,10 +367,35 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
-                </div>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={(() => {
+                            const onChangeClear = () => {
+                                const inputVal = '';
+                                setInputs({
+                                    ...inputs,
+                                    "datanscimento": inputVal
+                                });
+                                keyboard.current.setInput(inputVal);
+                            };
+                            onChangeClear();
+                        })}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
+                </Flex>
 
-
-                <div>
+                <Flex
+                    justifyContent='center'
+                >
                     <Button
                         size='xl'
                         height='70px'
@@ -302,14 +410,13 @@ export default function A1PJ() {
                     >
                         Registrar
                     </Button>
-                </div>
+                </Flex>
 
                 <Flex
                     mt={12}
                     justifyContent='center'
                     w='100vw'
                     h='15rm'
-                    
                 >
                     {show && (
                         <Keyboard
@@ -319,10 +426,10 @@ export default function A1PJ() {
                             inputName={inputName}
                             layout={{
                                 default: [
-                                    "1 2 3 4 5 6 7 8 9 0 {bksp}",
+                                    "1 2 3 4 5 6 7 8 9 0 ",
                                     "Q W E R T Y U I O P",
                                     'A S D F G H J K L',
-                                    "Z X C V B N M {enter}",
+                                    "Z X C V B N M ",
                                     "{space}"
                                 ]
                             }}
