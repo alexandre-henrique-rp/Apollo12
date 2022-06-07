@@ -12,6 +12,7 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from 'react-idle-timer';
+import { IoMdClose } from "react-icons/io";
 
 
 
@@ -31,9 +32,6 @@ export default function A1PJ() {
     const timeout = 2 * 60 * 1000;
 
 
-    const cookies = new Cookies();
-
-    
     useEffect(() => {
         setOverlay(<OverlayOne />);
         setTimeout(() => {
@@ -60,6 +58,15 @@ export default function A1PJ() {
         setInputs(inputs);
     };
 
+    const onChangeClear = (inputName) => {
+        const inputVal = '';
+        setInputs({
+            ...inputs,
+            [inputName]: inputVal
+        });
+        keyboard.current.setInput(inputVal);
+    };
+
     const onChangeInput = (event) => {
         const inputVal = event.target.value;
 
@@ -84,8 +91,8 @@ export default function A1PJ() {
         setCnpjCliente(cnpj)
     }, [inputs])
 
-    const valid = cpf.isValid(cpfClient);
-    const validCnpj = cnpj.isValid(cnpjClient);
+    const valid = cpf.isValid(cpfCliente);
+    const validCnpj = cnpj.isValid(cnpjCliente);
 
     const send = () => {
 
@@ -140,12 +147,11 @@ export default function A1PJ() {
             });
         } else {
             onOpen()
-            cookies.set('nome', nomeCliente, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('cpf', cpfCliente, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('rg', rgCliente, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('dataNascimento', dataNascimentoCli, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('cnpj', cnpjCliente, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-
+            localStorage.setItem('cpf', cpfCliente);
+            localStorage.setItem('rg', rgCliente);
+            localStorage.setItem('nome', nomeCliente);
+            localStorage.setItem('dtNs', dataNascimentoCli);
+            localStorage.setItem('cnpj', cnpjCliente);
             setTimeout(() => {
                 nanvigate('/agenda');
             }, 250);
@@ -153,7 +159,8 @@ export default function A1PJ() {
     }
 
     const handleOnIdle = () => {
-        nanvigate('/')
+        nanvigate('/01')
+        localStorage.clear();
     };
     const { getRemainingTime } = useIdleTimer({
         timeout,
@@ -169,13 +176,16 @@ export default function A1PJ() {
                 flexDirection='column'
                 alignItems='center'
                 justifyContent='center'
-                w='100%'
+                w='95%'
 
                 gap={5}
             >
 
                 <Box
                     mt={48}
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
                 >
                     <InputGroup>
                         <InputLeftElement
@@ -185,11 +195,11 @@ export default function A1PJ() {
                             marginRight='1rem'
                         ><GoPerson /></InputLeftElement>
                         <Input
-                            width='600px'
                             height='65px'
                             type='text'
                             placeholder='NOME COMPLETO'
-                            fontSize='2rem'
+                            fontSize='1.5rem'
+                            _placeholder={{ fontSize: '2rem' }}
                             paddingLeft='4rem'
                             borderColor='#00713c'
                             focusBorderColor='none'
@@ -205,8 +215,24 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={(() => {
+                            setInputs({ ...inputs, nome: '' });
+                        })}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
                 </Box>
-                <div>
+                <Flex>
                     <InputGroup>
                         <InputLeftElement
                             height='65px'
@@ -237,8 +263,22 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
-                </div>
-                <div>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={onChangeClear}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
+                </Flex>
+                <Flex>
                     <InputGroup>
                         <InputLeftElement
                             height='65px'
@@ -271,8 +311,22 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
-                </div>
-                <div>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={onChangeClear}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
+                </Flex>
+                <Flex>
                     <InputGroup>
                         <InputLeftElement
                             height='65px'
@@ -305,8 +359,22 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
-                </div>
-                <div>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={onChangeClear}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
+                </Flex>
+                <Flex>
                     <InputGroup>
                         <InputLeftElement
                             height='65px'
@@ -340,9 +408,25 @@ export default function A1PJ() {
                             }}
                         />
                     </InputGroup>
-                </div>
+                    <Button
+                        ms={4}
+                        bg='red.700'
+                        rounded='full'
+                        w="4.5rem"
+                        h="4.5rem"
+                        onClick={onChangeClear}
+                    >
+                        <IoMdClose
+                            color='white'
+                            fontWeight={900}
+                            size='8rem'
+                        />
+                    </Button>
+                </Flex>
 
-                <div>
+                <Flex
+                    justifyContent='center'
+                >
                     <Button
                         size='xl'
                         height='70px'
@@ -357,7 +441,7 @@ export default function A1PJ() {
                     >
                         Registrar
                     </Button>
-                </div>
+                </Flex>
 
                 <Flex
                     mt={12}
@@ -373,10 +457,10 @@ export default function A1PJ() {
                             inputName={inputName}
                             layout={{
                                 default: [
-                                    "1 2 3 4 5 6 7 8 9 0 {bksp}",
+                                    "1 2 3 4 5 6 7 8 9 0 ",
                                     "Q W E R T Y U I O P",
                                     'A S D F G H J K L',
-                                    "Z X C V B N M {enter}",
+                                    "Z X C V B N M ",
                                     "{space}"
                                 ]
                             }}

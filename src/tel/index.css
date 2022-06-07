@@ -30,3 +30,28 @@
 #root .simple-keyboard.myTheme1+.simple-keyboard-preview {
     background: #00713C;
 }
+
+.swal-title:not(:last-child) {
+    margin-bottom: 55px;
+}
+
+.swal-overlay {
+    background-color: rgba(248, 85, 36, 0.61);
+}
+
+.swal-modal {
+    width: 630px;
+}
+
+.swal-title {
+    font-size: 90px;
+}
+
+.swal-text {
+    font-size: 60px;
+    text-align: unset;
+}
+
+.swal-button {
+    font-size: 30px;
+}

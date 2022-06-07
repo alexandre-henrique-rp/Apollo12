@@ -12,7 +12,7 @@ export default function Template({ children }) {
     const nanvigate = useNavigate();
 
     useEffect(() => {
-        nanvigate("/");
+        nanvigate("/01");
     }, []);
     
     return (
@@ -57,7 +57,7 @@ export default function Template({ children }) {
                         _hover={{ bg: '#00A853', color: '#01532C' }}
                         color='white'
                         rounded={40}
-                        onClick={() => nanvigate("/")}
+                        onClick={() => nanvigate("/01")}
                     >
                         <IoMdClose fontSize='50' />
                     </Button>

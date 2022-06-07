@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Center, Container, Flex, Modal, ModalContent, ModalOverlay, Spinner, useDisclosure } from "@chakra-ui/react";
-import Cookies from 'universal-cookie';
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from 'react-idle-timer';
@@ -10,7 +10,7 @@ import { useIdleTimer } from 'react-idle-timer';
 export default function TipoDeCertificado() {
 
     const nanvigate = useNavigate();
-    const cookies = new Cookies();
+   
     const timeout = 2 * 60 * 1000;
 
     useEffect(() => {
@@ -29,7 +29,8 @@ export default function TipoDeCertificado() {
 
     function pf() {
         onOpen()
-        cookies.set('tipoDeCertificado', 'A1PF', { path: '/', expires: new Date(Date.now() + 5000) });
+        localStorage.setItem('tipoDeCertificado', 'A1PF')
+    
         setTimeout(() => {
             nanvigate('/pf');
         }, 100);
@@ -37,14 +38,16 @@ export default function TipoDeCertificado() {
 
     function pj() {
         onOpen()
-        cookies.set('tipoDeCertificado', 'A1PJ', { path: '/', expires: new Date(Date.now() + 5000) });
+        localStorage.setItem('tipoDeCertificado', 'A1PJ');
+        
         setTimeout(() => {
             nanvigate('/pj');
         }, 100);
     }
 
     const handleOnIdle = () => {
-        nanvigate('/')
+        nanvigate('/01')
+        localStorage.clear();
     };
     const { getRemainingTime } = useIdleTimer({
         timeout,

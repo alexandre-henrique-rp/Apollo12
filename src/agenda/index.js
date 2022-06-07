@@ -3,7 +3,6 @@ import { Box, Button, Center, Container, Flex, Heading, Modal, ModalContent, Mod
 import { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import { useIdleTimer } from 'react-idle-timer';
 
 
@@ -122,7 +121,7 @@ export default function Agenda() {
     // const idel = capareI + ind + verificar
     // const horaIdeal = horario[idel]
 
-    const cookies = new Cookies();
+    
     useEffect(() => {
         setOverlay(<OverlayOne />)
     }, [])
@@ -142,15 +141,15 @@ export default function Agenda() {
         const data = `${ano}-${mesFim}-${dia2}`;
         const hora = horaAgendada;
         console.log(data, hora)
-        cookies.set('data', data, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-        cookies.set('hora', hora, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
+        localStorage.setItem('data', data);
+        localStorage.setItem('hora', hora);
         setTimeout(() => {
             nanvigate('/resumo');
         }, 250);
     }
 
     const handleOnIdle = () => {
-        nanvigate('/')
+        nanvigate('/01')
     };
     const { getRemainingTime } = useIdleTimer({
         timeout,
@@ -201,15 +200,7 @@ export default function Agenda() {
                                 alignItems='center'
                                 justifyContent='space-around'
                             >
-                                <Button
-                                    border='none'
-                                    bg='transparent'
-                                    h='55'
-                                    _hover={{ bg: 'transparent' }}
-                                    onClick={PrevMes}
-                                >
-                                    <IoIosArrowBack />
-                                </Button>
+                               
                                 <Box>
                                     <Center>
                                         <Text fontSize='xl'>{mes}</Text>
@@ -218,15 +209,7 @@ export default function Agenda() {
                                         <Text fontSize='lg'>{ano}</Text>
                                     </Center>
                                 </Box>
-                                <Button
-                                    border='none'
-                                    bg='transparent'
-                                    h='55'
-                                    _hover={{ bg: 'transparent', border: 'none' }}
-                                    onClick={NextMes}
-                                >
-                                    <IoIosArrowForward />
-                                </Button>
+                                
                             </Box>
 
                         </Box>
@@ -354,7 +337,7 @@ export default function Agenda() {
                             fontSize='2rem'
                             onClick={salvar}
                         >
-                            Comfirmar
+                            Confirmar
                         </Button>
                     </Box>
                 </Flex>

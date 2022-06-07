@@ -9,23 +9,23 @@ import A1PF from '../pf/index'
 import Agenda from '../agenda/index'
 import Resumo from '../resumo/index'
 import Fim from '../final/index'
+import Protecao from '../prot/index'
 
 
 export default function AppRoutes() {
-     const nanvigate = useNavigate();
-
 
      return (
           <>
                <Routes>
-                    <Route path="/" element={<Intro />} />
-                    <Route exact path="/01" element={<Telefone />} />
-                    <Route exact path="/02" element={<Tipo />} />
-                    <Route exact path="/pj" element={<A1PJ />} />
-                    <Route exact path="/pf" element={<A1PF />} />
-                    <Route exact path="/agenda" element={<Agenda />} />
-                    <Route exact path="/resumo" element={<Resumo />} />
-                    <Route exact path="/fim" element={<Fim />} />
+                    <Route path="/" element={<Protecao />} />
+                    <Route path="/01" element={<Intro />} />
+                    <Route path="/02" element={<Telefone />} />
+                    <Route path="/03" element={<Tipo />} />
+                    <Route path="/pj" element={<A1PJ />} />
+                    <Route path="/pf" element={<A1PF />} />
+                    <Route path="/agenda" element={<Agenda />} />
+                    <Route path="/resumo" element={<Resumo />} />
+                    <Route path="/fim" element={<Fim />} />
                </Routes>
           </>
      );

@@ -7,7 +7,6 @@ import { useEffect, useState, useRef } from "react";
 import { mask, unMask } from 'remask';
 import { cpf } from 'cpf-cnpj-validator';
 import swal from 'sweetalert';
-import Cookies from "universal-cookie";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useNavigate } from "react-router-dom";
@@ -28,8 +27,6 @@ export default function A1PJ() {
     const [inputName, setInputName] = useState("default");
     const keyboard = useRef();
     const timeout = 2 * 60 * 1000;
-
-    const cookies = new Cookies();
 
     useEffect(() => {
         setTimeout(() => {
@@ -116,10 +113,10 @@ export default function A1PJ() {
             });
         } else {
             onOpen()
-            cookies.set('nome', nome, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('cpf', cpfClient, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('rg', rg, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-            cookies.set('dataNascimento', dataNascimento, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
+            localStorage.setItem('cpf', cpfClient);
+            localStorage.setItem('rg', rg);
+            localStorage.setItem('nome', nome);
+            localStorage.setItem('dtNs', dataNascimento);
             setTimeout(() => {
                 nanvigate('/agenda');
             }, 250);
@@ -127,7 +124,8 @@ export default function A1PJ() {
     }
 
     const handleOnIdle = () => {
-        nanvigate('/')
+        nanvigate('/01')
+        localStorage.clear();
     };
     const { getRemainingTime } = useIdleTimer({
         timeout,
@@ -165,7 +163,10 @@ export default function A1PJ() {
                             height='65px'
                             type='text'
                             placeholder='NOME COMPLETO'
-                            fontSize='2rem'
+                            fontSize='1.5rem'
+                            _placeholder={{
+                                fontSize: '2rem'
+                            }}
                             paddingLeft='4rem'
                             borderColor='#00713c'
                             focusBorderColor='none'

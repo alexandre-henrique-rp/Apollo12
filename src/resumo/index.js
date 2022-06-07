@@ -13,12 +13,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Cookies from 'universal-cookie';
+
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from 'react-idle-timer';
 
 const id = 16
-const cookies = new Cookies();
+
 
 
 
@@ -32,82 +32,81 @@ export default function Resumo() {
     const [Data, setData] = useState('');
     const [Datanasc, setDatanasc] = useState('');
     const timeout = 2 * 60 * 1000;
-   
-    const setnome = cookies.get('nome')
-    const nome = setnome === undefined ? '' : setnome;
-    const setcpf = cookies.get('cpf')
-    const cpf = setcpf === undefined ? '' : setcpf;
-    const setcnpj = cookies.get('cnpj')
-    const cnpj = setcnpj === undefined ? '' : setcnpj;
-    const setrg = cookies.get('rg')
-    const rg = setrg === undefined ? '' : setrg;
-    const setdataNascimento = cookies.get('dataNascimento')
-    const dataNascimento = setdataNascimento === undefined ? '' : setdataNascimento;
-    const settelefone = cookies.get('telefone')
-    const telefone = settelefone === undefined ? '' : settelefone;
-    const settipocd = cookies.get('tipoDeCertificado')
-    const tipoCd = settipocd === undefined ? '' : settipocd;
-    const setdata = cookies.get('data')
-    const dataAg = setdata === undefined ? '' : setdata;
-    const sethora = cookies.get('hora')
-    const hora = sethora === undefined ? '' : sethora;
-    const setcnpjM = cookies.get('cnpjM')
-    const cnpjM = setcnpjM === undefined ? '' : setcnpjM;
-    const setcpfM = cookies.get('cpfM')
-    const cpfM = setcpfM === undefined ? '' : setcpfM;
 
+    const setnome = localStorage.getItem('nome');
+    const nome = setnome === undefined ? '' : setnome;
+    const setcpf = localStorage.getItem('cpf')
+    const cpf = setcpf === undefined ? '' : setcpf;
+    const setcnpj = localStorage.getItem('cnpj')
+    const cnpj = setcnpj === undefined ? '' : setcnpj;
+    const setrg = localStorage.getItem('rg')
+    const rg = setrg === undefined ? '' : setrg;
+    const setdataNascimento = localStorage.getItem('dtNs')
+    const dataNascimento = setdataNascimento === undefined ? '' : setdataNascimento;
+    const settelefone = localStorage.getItem('telefone')
+    const telefone = settelefone === undefined ? '' : settelefone;
+    const settipocd = localStorage.getItem('tipoDeCertificado')
+    const tipoCd = settipocd === undefined ? '' : settipocd;
+    const setdata = localStorage.getItem('data')
+    const dataAg = setdata === undefined ? '' : setdata;
+    const sethora = localStorage.getItem('hora')
+    const hora = sethora === undefined ? '' : sethora;
+
+
+    // const clienteHttp = axios.create({
+    //     baseURL: 'https://totemapi.redebrasilrp.com.br/',
+    // });
     const clienteHttp = axios.create({
-        baseURL: 'https://totemapi.redebrasilrp.com.br/',
+        baseURL: 'http://localhost:3040/',
     });
 
-    function getUsuarios() {
-        return clienteHttp.get(`/totem/${id}`).then(function (response) {
-            console.log(response.data)
-            setTotem(response.data)
-        });
+    async function getUsuarios() {
+        const response = await clienteHttp.get(`/totem/${id}`);
+        console.log(response.data);
+        setTotem(response.data);
     }
 
-    var Diaag = Data && Data.substring(8, 10);
-    var Mesag = Data && Data.substring(5, 7);
-    var Anoag = Data && Data.substring(0, 4);
-    var DiaNasc = Datanasc && Datanasc.substring(8, 10);
-    var MesNasc = Datanasc && Datanasc.substring(5, 7);
-    var AnoNasc = Datanasc && Datanasc.substring(0, 4);
+    
+    var cpfMask = cpf.substring(0, 3) + '.' + cpf.substring(3, 6) + '.' + cpf.substring(6, 9) + '-' + cpf.substring(9, 11);
+    console.log(cpfMask)
+    
+    
+    
+  
+    var Diaag1 = Data.substring(8, 10);
+    var Diaag = Diaag1.length === 1 ? '0' + Diaag1 : Diaag1;
+    var Mesag = Data.substring(5, 7);
+    var Anoag = Data.substring(0, 4);
+    var DiaNasc1 = Datanasc.substring(0, 2);
+    var DiaNasc = DiaNasc1.length === 1 ? '0' + DiaNasc1 : DiaNasc1;
+    var MesNasc = Datanasc.substring(2, 4);
+    var AnoNasc = Datanasc.substring(4, 8);
 
     const dataAgendadamento1 = Diaag + "/" + Mesag + "/" + Anoag + "-" + hora;
     const dataAgendadamento = setdata === undefined ? '' : dataAgendadamento1;
     const nasci1 = DiaNasc + "/" + MesNasc + "/" + AnoNasc;
     const nasci = setdataNascimento === undefined ? '' : nasci1;
     
+    const dtnascimento = AnoNasc + "-" + MesNasc + "-" + DiaNasc;
+    const agend = Anoag + "-" + Mesag + "-" + Diaag;
     const valor = tipoCd === 'A1PF' ? totem.a1pf_12m : totem.a1pj_12m
 
     const price1 = `R$ ${valor},00`
     const price = valor === undefined ? 'R$ 0,00' : price1
-    
-    function getcnpj() {
+
+    async function getcnpj() {
         setTimeout(() => {
-           onClose()
+            onClose()
         }, 50);
-        return clienteHttp.get(`/roboscrap/${cnpj}`).then(function (response) {
-            console.log(response.data)
-            setRazaoSocial(response.data)
-        });
+        const response = await clienteHttp.get(`/roboscrap/${cnpj}`);
+        console.log(response.data);
+        setRazaoSocial(response.data);
     }
 
     console.log(setnome)
 
     const editar = () => {
         onOpen()
-        cookies.remove('nome');
-        cookies.remove('cpf');
-        cookies.remove('rg');
-        cookies.remove('dataNascimento');
-        cookies.remove('tipoDeCertificado');
-        cookies.remove('data');
-        cookies.remove('hora');
-        cookies.remove('cnpj');
-        cookies.remove('cpfM');
-        cookies.remove('cnpjM');
         setTimeout(() => {
             nanvigate('/02');
         }, 250);
@@ -115,28 +114,38 @@ export default function Resumo() {
 
     const pagar = () => {
         onOpen()
-        cookies.set('nome', nome, { path: '/', expires: new Date(Date.now() + 60 * 50000) }); 
-        cookies.set('cpf', cpf, { path: '/', expires: new Date(Date.now()  + 60 * 50000) });
-        cookies.set('rg', rg, { path: '/', expires: new Date(Date.now()  + 60 * 50000) });
-        cookies.set('dataNascimento', dataNascimento, { path: '/', expires: new Date(Date.now()  + 60 * 50000) });
-        cookies.set('tipoDeCertificado', tipoCd, { path: '/', expires: new Date(Date.now()  + 60 * 50000) });
-        cookies.set('data', dataAg, { path: '/', expires: new Date(Date.now()  + 60 * 50000) });
-        cookies.set('hora', hora, { path: '/', expires: new Date(Date.now()  + 60 * 50000) });
-        cookies.set('cnpj', cnpj, { path: '/', expires: new Date(Date.now()  + 60 * 50000) });
-        cookies.set('Razao', razaoSocial, { path: '/', expires: new Date(Date.now()  + 60 * 50000) });
-        cookies.set('telefone', telefone, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-
+        registro()
         
-        setTimeout(() => {
-            nanvigate('/fim');
-        }, 250);
     }
-    
-    useEffect(() => {
-        setTimeout(() => {
-            nanvigate('/')
-        }, 90000);
+
+    async function registro() {
+        return response = await clienteHttp.post(`/cadastrar/cliente`, {
+            dt_agenda: agend,
+            nome: nome,
+            cpf: cpf,
+            cnpj: cnpj,
+            rg: rg,
+            dtnascimento: dtnascimento,
+            telefone: telefone,
+            tipocd: tipoCd,
+            hr_agenda: hora,
+            razaosocial: razaoSocial,
+            andamento: 'agendado',
+            unidade: id,
+            valorcd: price,
+            estatos_pgto: '',
+            obscont: '',
+            observacao: ''
+        }).then(function (response) {
+            console.log(response.data)
+            setTimeout(() => {
+                nanvigate('/fim');
+            }, 1050);
+        });
         
+    }
+
+    useEffect(() => {
         setDatanasc(dataNascimento)
         setData(dataAg)
         getUsuarios();
@@ -155,7 +164,8 @@ export default function Resumo() {
     const [overlay, setOverlay] = useState(<OverlayOne />)
 
     const handleOnIdle = () => {
-        nanvigate('/')
+        nanvigate('/01')
+        localStorage.clear();
     };
     const { getRemainingTime } = useIdleTimer({
         timeout,
@@ -164,7 +174,7 @@ export default function Resumo() {
     useEffect(() => {
         getRemainingTime();
     }, []);
-    
+
     return (
         <Box
             display="flex"
@@ -181,7 +191,7 @@ export default function Resumo() {
                 textTransform={'uppercase'}
                 mb={16}
             >
-                Agenda
+                Resumo
             </Heading>
             <Flex
                 flexDirection='column'
@@ -208,7 +218,7 @@ export default function Resumo() {
                 </Flex>
                 <Flex justifyContent='space-between' alignItems='center'>
                     <Text fontSize='2xl'>CPF:</Text>
-                    <Heading as='h3' size='xl'>{cpfM}</Heading>
+                    <Heading as='h3' size='xl'>{cpfMask}</Heading>
                 </Flex>
                 <Flex justifyContent='space-between' alignItems='center'>
                     <Text fontSize='2xl'>Nascimento:</Text>
@@ -223,7 +233,7 @@ export default function Resumo() {
                         h='auto'
                         textAlign='end'
                     >
-                        {cnpjM}
+                        {cnpj}
                     </Heading>
                 </Flex>
                 <Flex justifyContent='space-between' alignItems='center'>

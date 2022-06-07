@@ -5,12 +5,12 @@ import swal from 'sweetalert';
 import { Box, Button, chakra, Flex, Heading, Input, InputGroup, InputLeftElement, Modal, ModalContent, ModalOverlay, Spinner, useDisclosure } from '@chakra-ui/react';
 import { ImPhone } from "react-icons/im";
 import { mask, unMask } from 'remask';
-import Cookies from 'universal-cookie';
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { useNavigate } from 'react-router-dom';
 import "./index.css";
 import { useIdleTimer } from 'react-idle-timer';
+import { IoMdClose } from "react-icons/io";
 
 
 export default function Telefone() {
@@ -21,9 +21,8 @@ export default function Telefone() {
     const [show, setShow] = useState(false);
     const [inputName, setInputName] = useState("");
     const keyboard = useRef();
-    const cookies = new Cookies();
     const timeout = 2 * 60 * 1000;
-    
+
     const OverlayOne = () => (
         <ModalOverlay
             bg='greem.300'
@@ -53,6 +52,15 @@ export default function Telefone() {
         keyboard.current.setInput(inputVal);
     };
 
+    const onChangeClear = (event) => {
+        const inputVal = '';
+        setInputs({
+            ...inputs,
+            [inputName]: inputVal
+        });
+        keyboard.current.setInput(inputVal);
+    };
+
     useEffect(() => {
         const telefone = inputs.telefone === undefined ? '' : inputs.telefone;
         setTelefone(telefone)
@@ -61,19 +69,18 @@ export default function Telefone() {
     function SalvaTel() {
         setOverlay(<OverlayOne />)
         var nuber = 55 + inputs.telefone;
+        console.log("nuber", nuber);
+        TemZap(nuber);
+
+
+    }
+
+    function TemZap(nuber) {
         function alerta() {
             swal({
                 title: "Opps...!!",
                 text: `Parece que o telefone ${inputs.telefone} não tem Watsapp,\n Por favor tente outro telefone`,
                 icon: "error",
-                dangerMode: true,
-            })
-        }
-        function alerta2() {
-            swal({
-                title: "Opps...!!",
-                text: `Parece que o telefone ${inputs.telefone} ja esta em uma coversa,\n Por favor agarde que uma atendente entre em contato`,
-                icon: "warning",
                 dangerMode: true,
             })
         }
@@ -84,79 +91,89 @@ export default function Telefone() {
                 'access-token': '60de0c8bb0012f1e6ac5546b'
             }
         };
-
         axios(config)
-
             .then(function (response) {
                 console.log(JSON.stringify(response.data));
                 if (response.data.status === 'VALID_WA_NUMBER') {
-                    const telM = telefone;
-                    cookies.set('telefone', inputs.telefone, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-                    cookies.set('telM', telM, { path: '/', expires: new Date(Date.now() + 60 * 50000) });
-                    enviarSms()
+                    localStorage.setItem('telefone', telefone);
                     onOpen()
-                    setTimeout(() => {
-                        nanvigate('/02');
-                    }, 3000);
+                    Mensagen1(nuber)
                 } else {
                     alerta();
                 }
             })
-
             .catch(function (error) {
                 console.log(error);
                 alerta();
             });
+    }
 
-        async function enviarSms() {
+    function Mensagen1(nuber) {
+        var myHeaders = new Headers();
+        myHeaders.append("access-token", "60de0c8bb0012f1e6ac5546b");
+        myHeaders.append("Content-Type", "application/json");
 
+        var msg = 'Ola\n \nTudo bem!\n \nEu sou o *Atendimento Automatizado* da Rede Brasil Rp.\n \nAntes de pasar seu contato para um atendente preciso de algumas informações adicionais\n \n \n*1) Email de contato valido*\n Esse email é o canal onde você vai receber as chaves para baixar seu Certificado!.'
 
-
-            var nuber = 55 + inputs.telefone;
-
-            var smsScript = "Ola\n \nTudo bem!\n \nEu sou o *Robo Automatizado* da Rede Brasil Rp.\n \nDaqui ate a hora que o atendente for lhe atender, eu seri responsavel por você."
-
-            const requestOptionsDefault = {
-                headers: {
-                    "access-token": "60de0c8bb0012f1e6ac5546b",
-                    "Content-Type": "application/json"
-                },
-                redirect: 'follow'
-            };
-
-            await axios.post('https://api.zapstar.com.br/core/v2/api/chats/create-new', JSON.stringify({
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify({
                 "number": nuber,
-                "message": smsScript,
-                "sectorId": "60de0c8bb0012f1e6ac55473",
-                "userId": ""
-            }), requestOptionsDefault)
-                .then(function (response) {
-                    console.log(JSON.stringify(response.data));
-                    var url = `https://api.zapstar.com.br/core/v2/api/chats/${JSON.stringify(response.data.chatId)}/send-menu?menuId=62448d08c53044fe45dc60cb`;
-                    var myHeaders = new Headers();
-                    myHeaders.append("access-token", "60de0c8bb0012f1e6ac5546b");
-                    myHeaders.append("Content-Type", "application/json");
+                "message": msg,
+                "forceSend": true,
+                "verifyContact": true
+            }),
+            redirect: 'follow'
+        };
 
-                    var requestOptions = {
-                        method: 'POST',
-                        headers: myHeaders,
-                        redirect: 'follow'
-                    };
+        fetch("https://api.zapstar.com.br/core/v2/api/chats/send-text", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .then(() => {
+                setTimeout(() => {
+                    Mensagen2(nuber)
+                }, 800);
+            })
+            .catch(error => console.log('error', error));
+    }
 
-                    fetch(`https://api.zapstar.com.br/core/v2/api/chats/${JSON.stringify(response.data.chatId)}/send-menu?menuId=62448d08c53044fe45dc60cb`, requestOptions)
-                        .then(response => response.text())
+    function Mensagen2(nuber) {
+        var myHeaders = new Headers();
+        myHeaders.append("access-token", "60de0c8bb0012f1e6ac5546b");
+        myHeaders.append("Content-Type", "application/json");
 
-                })
-                .catch(function (error) {
-                    console.log(error.message);
-                    console.log(nuber)
-                    alerta2();
-                });
-        }
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify({
+                "number": nuber,
+                "forceSend": true,
+                "verifyContact": true,
+                "linkUrl": "https://redebrasilrp.com.br/_assets/img/cnh_foto.jpeg",
+                "extension": ".jpg",
+                "base64": "",
+                "fileName": "cnh_foto",
+                "caption": "*2) Foto da CNH*\n \n a sua CNH é muito importante, para que possamos comparar se o seu dados estão corretos\n \n*Lembrando, mande apenas uma foto, com o documento aberto*.",
+            }),
+            redirect: 'follow'
+        };
+
+        fetch("https://api.zapstar.com.br/core/v2/api/chats/send-media", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .then(() => {
+                setTimeout(() => {
+                    nanvigate('/03');
+                }, 3000);
+            })
+            .catch(error => console.log('error', error));
     }
 
     const handleOnIdle = () => {
-        nanvigate('/')
+        nanvigate('/01')
+        localStorage.clear();
     };
 
     const { getRemainingTime } = useIdleTimer({
@@ -174,13 +191,16 @@ export default function Telefone() {
                 flexDirection='column'
                 justifyContent='center'
                 alignItems='center'
+                w='95%'
             >
                 <Box
                     mt={72}
+                    w='100%'
                 >
                     <Flex
                         flexDirection='column'
                         alignItems='center'
+                        
                         mb={10}
                     >
                         <Heading
@@ -197,7 +217,11 @@ export default function Telefone() {
                             seu whatsApp é muito importante para video conferencia
                         </chakra.p>
                     </Flex>
-                    <div>
+                    <Box
+                        display='flex'
+                        justifyContent='center'
+                        alignItems='center'
+                    >
                         <InputGroup>
                             <InputLeftElement
                                 pointerEvents='none'
@@ -233,8 +257,26 @@ export default function Telefone() {
                                 }}
                             />
                         </InputGroup>
-                    </div>
-                    <div>
+                        <Button
+                            ms={4}
+                            bg='red.700'
+                            rounded='full'
+                            w="4.5rem"
+                            h="4.5rem"
+                            onClick={onChangeClear}
+                        >
+                            <IoMdClose
+                                color='white'
+                                fontWeight={900}
+                                size='8rem'
+                            />
+                        </Button>
+                    </Box>
+                    <Flex
+                        flexDirection='column'
+                        justifyContent='center'
+                        alignItems='center'
+                    >
                         <Button
                             size='xl'
                             height='70px'
@@ -250,7 +292,7 @@ export default function Telefone() {
                         >
                             Confirmar
                         </Button>
-                    </div>
+                    </Flex>
                 </Box>
             </Flex>
             <Flex
@@ -271,7 +313,7 @@ export default function Telefone() {
                                 "7 8 9",
                                 "4 5 6",
                                 "1 2 3",
-                                " 0 {bksp}"
+                                " 0 "
                             ]
                         }}
                     />

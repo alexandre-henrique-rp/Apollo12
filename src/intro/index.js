@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useIdleTimer } from 'react-idle-timer';
 
 
 export default function Intro() {
 
     const nanvigate = useNavigate();
+    const timeout = 40 * 1000;
 
     function handleClick() {
-        nanvigate("/01");
-    }
+        nanvigate("/02");
+    };
 
+    const handleOnIdle = () => {
+        nanvigate('/')
+    };
 
+    const { getRemainingTime } = useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle
+    });
+
+    useEffect(() => {
+        getRemainingTime();
+    }, []);
+    
     return (
         <>
             <Flex

@@ -6,6 +6,9 @@ import swal from "sweetalert";
 export default function Fim() {
 
     const nanvigate = useNavigate();
+    
+    localStorage.clear();
+    
 
     setTimeout(() => {
         swal({
@@ -19,7 +22,7 @@ export default function Fim() {
     }, 3000);
 
     setTimeout(() => {
-        nanvigate('/')
+        nanvigate('/01')
     }, 11000);
 
     return (
