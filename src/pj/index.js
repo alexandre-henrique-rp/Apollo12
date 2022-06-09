@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Flex, Input, InputGroup, InputLeftElement, Modal, ModalContent, ModalOverlay, Spinner, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormHelperText, Input, InputGroup, InputLeftElement, Modal, ModalContent, ModalOverlay, Spinner, useDisclosure } from "@chakra-ui/react";
 import { GoPerson } from "react-icons/go";
 import { FaIdCard, FaIdCardAlt } from "react-icons/fa";
 import { BsFillCalendar2WeekFill } from "react-icons/bs";
@@ -31,7 +31,6 @@ export default function A1PJ() {
     const keyboard = useRef();
     const timeout = 2 * 60 * 1000;
 
-
     useEffect(() => {
         setOverlay(<OverlayOne />);
         setTimeout(() => {
@@ -56,15 +55,6 @@ export default function A1PJ() {
     const onChangeAll = (inputs) => {
         console.log("Inputs changed", inputs);
         setInputs(inputs);
-    };
-
-    const onChangeClear = (inputName) => {
-        const inputVal = '';
-        setInputs({
-            ...inputs,
-            [inputName]: inputVal
-        });
-        keyboard.current.setInput(inputVal);
     };
 
     const onChangeInput = (event) => {
@@ -181,7 +171,7 @@ export default function A1PJ() {
             >
 
                 <Box
-                    mt={48}
+                    mt={28}
                     display='flex'
                     justifyContent='center'
                     alignItems='center'
@@ -233,6 +223,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -292,6 +283,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -352,6 +344,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -362,38 +355,47 @@ export default function A1PJ() {
                     </Button>
                 </Flex>
                 <Flex>
-                    <InputGroup>
-                        <InputLeftElement
-                            height='65px'
-                            fontSize='3rem'
-                            paddingLeft='0.3rem'
-                            marginRight='1rem'
-                        ><BsFillCalendar2WeekFill /></InputLeftElement>
-                        <Input
-                            width='617px'
-                            height='65px'
-                            type='text'
-                            fontSize='3rem'
-                            _placeholder={{ fontSize: '2rem', height: '65px' }}
-                            paddingLeft='4rem'
-                            placeholder='DATA DE NASCIMENTO'
-                            borderColor='#00713c'
-                            focusBorderColor='none'
-                            textAlign={'center'}
-                            maxLength={8}
-                            value={(() => {
-                                const valei = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
-                                const originalVelue = unMask(valei);
-                                const maskedValue = mask(originalVelue, ["99/99/9999"]);
-                                return maskedValue;
-                            })()}
-                            onChange={onChangeInput}
-                            onFocus={() => {
-                                setShow(true)
-                                setInputName("datanscimento");
-                            }}
-                        />
-                    </InputGroup>
+                    <FormControl>
+                        <InputGroup>
+                            <InputLeftElement
+                                height='65px'
+                                fontSize='3rem'
+                                paddingLeft='0.3rem'
+                                marginRight='1rem'
+                            >
+                                <BsFillCalendar2WeekFill />
+                            </InputLeftElement>
+                            <Input
+                                width='617px'
+                                height='65px'
+                                type='text'
+                                fontSize='3rem'
+                                _placeholder={{ fontSize: '2rem', height: '65px' }}
+                                paddingLeft='4rem'
+                                placeholder='DATA DE NASCIMENTO'
+                                borderColor='#00713c'
+                                focusBorderColor='none'
+                                textAlign={'center'}
+                                maxLength={8}
+                                value={(() => {
+                                    const valei = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
+                                    const originalVelue = unMask(valei);
+                                    const maskedValue = mask(originalVelue, ["99/99/9999"]);
+                                    return maskedValue;
+                                })()}
+                                onChange={onChangeInput}
+                                onFocus={() => {
+                                    setShow(true)
+                                    setInputName("datanscimento");
+                                }}
+                            />
+                        </InputGroup>
+                        <FormHelperText
+                            fontSize='xl'
+                        >
+                            Exemplo DD / MM / AAAA.
+                        </FormHelperText>
+                    </FormControl>
                     <Button
                         ms={4}
                         bg='red.700'
@@ -410,6 +412,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -419,7 +422,7 @@ export default function A1PJ() {
                         />
                     </Button>
                 </Flex>
-                <Flex>
+                <Flex mb={5}>
                     <InputGroup>
                         <InputLeftElement
                             height='65px'
@@ -471,6 +474,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -501,7 +505,7 @@ export default function A1PJ() {
                 </Flex>
 
                 <Flex
-                    mt={12}
+                    mt={10}
                     justifyContent='center'
                     w='100vw'
                     h='15rm'
@@ -514,9 +518,9 @@ export default function A1PJ() {
                             inputName={inputName}
                             layout={{
                                 default: [
-                                    "1 2 3 4 5 6 7 8 9 0 ",
+                                    "1 2 3 4 5 6 7 8 9 0",
                                     "Q W E R T Y U I O P",
-                                    'A S D F G H J K L',
+                                    "A S D F G H J K L",
                                     "Z X C V B N M ",
                                     "{space}"
                                 ]

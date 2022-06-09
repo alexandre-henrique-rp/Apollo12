@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Flex, Input, InputGroup, InputLeftElement, Modal, ModalContent, ModalOverlay, Spinner, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormHelperText, Input, InputGroup, InputLeftElement, Modal, ModalContent, ModalOverlay, Spinner, useDisclosure } from "@chakra-ui/react";
 import { GoPerson } from "react-icons/go";
 import { FaIdCard, FaIdCardAlt } from "react-icons/fa";
 import { BsFillCalendar2WeekFill } from "react-icons/bs";
@@ -80,7 +80,7 @@ export default function A1PF() {
     }, [inputs])
 
     const valid = cpf.isValid(cpfCliente);
-    
+
     const send = () => {
 
         if (cpfCliente === '' || rgCliente === '' || nomeCliente === '' || dataNascimentoCli === '') {
@@ -116,7 +116,7 @@ export default function A1PF() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
-        
+
         } else {
             onOpen()
             localStorage.setItem('cpf', cpfCliente);
@@ -204,6 +204,7 @@ export default function A1PF() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -263,6 +264,7 @@ export default function A1PF() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -323,6 +325,7 @@ export default function A1PF() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -332,41 +335,48 @@ export default function A1PF() {
                         />
                     </Button>
                 </Flex>
-                <Flex>
-                    <InputGroup>
-                        <InputLeftElement
-                            height='65px'
-                            fontSize='3rem'
-                            paddingLeft='0.3rem'
-                            marginRight='1rem'
+                <Flex mb={5}>
+                    <FormControl>
+                        <InputGroup>
+                            <InputLeftElement
+                                height='65px'
+                                fontSize='3rem'
+                                paddingLeft='0.3rem'
+                                marginRight='1rem'
+                            >
+                                <BsFillCalendar2WeekFill />
+                            </InputLeftElement>
+                            <Input
+                                width='617px'
+                                height='65px'
+                                type='text'
+                                fontSize='3rem'
+                                _placeholder={{ fontSize: '2rem', height: '65px' }}
+                                paddingLeft='4rem'
+                                placeholder='DATA DE NASCIMENTO'
+                                borderColor='#00713c'
+                                focusBorderColor='none'
+                                textAlign={'center'}
+                                maxLength={8}
+                                value={(() => {
+                                    const valei = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
+                                    const originalVelue = unMask(valei);
+                                    const maskedValue = mask(originalVelue, ["99/99/9999"]);
+                                    return maskedValue;
+                                })()}
+                                onChange={onChangeInput}
+                                onFocus={() => {
+                                    setShow(true)
+                                    setInputName("datanscimento");
+                                }}
+                            />
+                        </InputGroup>
+                        <FormHelperText
+                        fontSize='xl'
                         >
-                            <BsFillCalendar2WeekFill />
-                        </InputLeftElement>
-                        <Input
-                            width='617px'
-                            height='65px'
-                            type='text'
-                            fontSize='3rem'
-                            _placeholder={{ fontSize: '2rem', height: '65px' }}
-                            paddingLeft='4rem'
-                            placeholder='DATA DE NASCIMENTO'
-                            borderColor='#00713c'
-                            focusBorderColor='none'
-                            textAlign={'center'}
-                            maxLength={8}
-                            value={(() => {
-                                const valei = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
-                                const originalVelue = unMask(valei);
-                                const maskedValue = mask(originalVelue, ["99/99/9999"]);
-                                return maskedValue;
-                            })()}
-                            onChange={onChangeInput}
-                            onFocus={() => {
-                                setShow(true)
-                                setInputName("datanscimento");
-                            }}
-                        />
-                    </InputGroup>
+                            Exemplo DD / MM / AAAA.
+                        </FormHelperText>
+                    </FormControl>
                     <Button
                         ms={4}
                         bg='red.700'
@@ -383,6 +393,7 @@ export default function A1PF() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
+                            setShow(false)
                         })}
                     >
                         <IoMdClose
@@ -392,7 +403,7 @@ export default function A1PF() {
                         />
                     </Button>
                 </Flex>
-
+               
                 <Flex
                     justifyContent='center'
                 >

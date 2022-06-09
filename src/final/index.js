@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, Flex, Heading, Image, Stack } from "@chakra-ui/react";
+import { Box, chakra, Flex, Heading, Image, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import swal from "sweetalert";
+
 
 export default function Fim() {
 
@@ -10,20 +10,9 @@ export default function Fim() {
     localStorage.clear();
     
 
-    setTimeout(() => {
-        swal({
-            title: "Opps...!!",
-            text: `Ouve um erro ao conunicar com o servidor de pagamento, um atendente entrara em contato mais tarde via WhatsApp.`,
-            icon: "error",
-            dangerMode: true,
-            buttons: false,
-            timer: 7500,
-        })
-    }, 3000);
-
-    setTimeout(() => {
-        nanvigate('/01')
-    }, 11000);
+    // setTimeout(() => {
+    //     nanvigate('/01')
+    // }, 10 * 1000);
 
     return (
         <>
@@ -45,13 +34,26 @@ export default function Fim() {
                         spacing={6}
                     >
                         <Heading
-                            fontSize="4xl"
+                            fontSize="7xl"
                             fontWeight="semibold"
                             textTransform="uppercase"
                             mb={20}
                         >
-                            Agendamento confirmado   
+                            Parabéns  
                         </Heading>
+                        <chakra.span
+                            px={10}
+                            fontSize="2.75rem"
+                            fontWeight="semibold"
+                        >
+                            Seu agendamento foi efetuado com sucesso!
+                        </chakra.span>
+                        <chakra.span
+                            px={10}
+                            fontSize="2.50rem"
+                        >
+                            Agora só aguardar que um do nossos atendemte entra em conatato.
+                        </chakra.span>
                         <Box
                             w={72}
                             h={80}

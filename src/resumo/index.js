@@ -13,16 +13,11 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from 'react-idle-timer';
 
 const id = 16
-
-
-
-
-
+const id_local = 'TOTEM 01 - TOTEM DE TESTE'
 
 export default function Resumo() {
 
@@ -53,12 +48,12 @@ export default function Resumo() {
     const hora = sethora === undefined ? '' : sethora;
 
 
-    // const clienteHttp = axios.create({
-    //     baseURL: 'https://totemapi.redebrasilrp.com.br/',
-    // });
     const clienteHttp = axios.create({
-        baseURL: 'http://localhost:3040/',
+        baseURL: 'https://totemapi.redebrasilrp.com.br/',
     });
+    // const clienteHttp = axios.create({
+    //     baseURL: 'http://localhost:3040/',
+    // });
 
     async function getUsuarios() {
         const response = await clienteHttp.get(`/totem/${id}`);
@@ -66,13 +61,9 @@ export default function Resumo() {
         setTotem(response.data);
     }
 
-    
     var cpfMask = cpf.substring(0, 3) + '.' + cpf.substring(3, 6) + '.' + cpf.substring(6, 9) + '-' + cpf.substring(9, 11);
     console.log(cpfMask)
-    
-    
-    
-  
+
     var Diaag1 = Data.substring(8, 10);
     var Diaag = Diaag1.length === 1 ? '0' + Diaag1 : Diaag1;
     var Mesag = Data.substring(5, 7);
@@ -86,7 +77,7 @@ export default function Resumo() {
     const dataAgendadamento = setdata === undefined ? '' : dataAgendadamento1;
     const nasci1 = DiaNasc + "/" + MesNasc + "/" + AnoNasc;
     const nasci = setdataNascimento === undefined ? '' : nasci1;
-    
+
     const dtnascimento = AnoNasc + "-" + MesNasc + "-" + DiaNasc;
     const agend = Anoag + "-" + Mesag + "-" + Diaag;
     const valor = tipoCd === 'A1PF' ? totem.a1pf_12m : totem.a1pj_12m
@@ -95,25 +86,30 @@ export default function Resumo() {
     const price = valor === undefined ? 'R$ 0,00' : price1
 
     async function getcnpj() {
-        setTimeout(() => {
-            onClose()
-        }, 50);
-        const response = await clienteHttp.get(`/roboscrap/${cnpj}`);
-        console.log(response.data);
-        setRazaoSocial(response.data);
+        if (tipoCd === 'A1PF') {
+            setTimeout(() => {
+                onClose()
+            }, 50);
+        } else {
+            onOpen()
+            setTimeout(() => {
+                onClose()
+            }, 300);
+            const response = await clienteHttp.get(`/roboscrap/${cnpj}`);
+            console.log(response.data);
+            setRazaoSocial(response.data)
+        }
     }
-
-    console.log(setnome)
-
 
     const pagar = () => {
         onOpen()
         registro()
-        
     }
 
-    async function registro() {
-        return response = await clienteHttp.post(`/cadastrar/cliente`, {
+    const id_obs = `O AGENDAMENTO FOI EFETUADO PELO TOTEM DE AUTOATENDIMENTO (${id_local}), PARA O CLIENTE ${nome} COM O TELEFONE ${telefone}, FICAR ATENTO AO HORARIO DE ATENDIMENTO, E AS INFORMACOES REGISTRADAS, NAO ESQUECENDO DE PESQUISAR SE O CLIENTE TEM MATRICULA CEI.`;
+    
+    function registro() {
+        return response = clienteHttp.post('/cadastrar/cliente', {
             dt_agenda: agend,
             nome: nome,
             cpf: cpf,
@@ -124,19 +120,19 @@ export default function Resumo() {
             tipocd: tipoCd,
             hr_agenda: hora,
             razaosocial: razaoSocial,
-            andamento: 'agendado',
+            andamento: 'AGENDADO',
             unidade: id,
             valorcd: price,
-            estatos_pgto: '',
-            obscont: '',
-            observacao: ''
-        }).then(function (response) {
-            console.log(response.data)
-            setTimeout(() => {
-                nanvigate('/fim');
-            }, 1050);
-        });
-        
+            estatos_pgto: 'Falta Pgto',
+            obscont: id_local,
+            observacao: id_obs,
+        })
+            .then(function (response) {
+                console.log(response.data)
+                setTimeout(() => {
+                    nanvigate('/fim');
+                }, 1050);
+            });
     }
 
     useEffect(() => {
@@ -144,7 +140,7 @@ export default function Resumo() {
         setData(dataAg)
         getUsuarios();
         getcnpj()
-        onClose()
+        
     }, [])
 
     const OverlayOne = () => (
@@ -264,7 +260,7 @@ export default function Resumo() {
                 justifyContent='flex-end'
                 alignItems='center'
             >
-               
+
                 <Button
                     bg='whatsapp.800'
                     _hover={{ bg: 'whatsapp.900' }}
@@ -275,7 +271,7 @@ export default function Resumo() {
                     rounded={40}
                     onClick={pagar}
                 >
-                    PAGAR
+                   Finalizar
                 </Button>
             </Flex>
             <Modal
