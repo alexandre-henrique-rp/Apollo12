@@ -15,6 +15,8 @@ export default function Template({ children }) {
         nanvigate("/01");
     }, []);
     
+    
+    console.log(window.location.href)
     return (
         <>
             <Box
@@ -57,7 +59,7 @@ export default function Template({ children }) {
                         _hover={{ bg: '#00A853', color: '#01532C' }}
                         color='white'
                         rounded={40}
-                        onClick={() => nanvigate("/01")}
+                        onClick={() => nanvigate("/pf")}
                     >
                         <IoMdClose fontSize='50' />
                     </Button>

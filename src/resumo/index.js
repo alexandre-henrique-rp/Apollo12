@@ -140,7 +140,6 @@ export default function Resumo() {
         setData(dataAg)
         getUsuarios();
         getcnpj()
-        
     }, [])
 
     const OverlayOne = () => (

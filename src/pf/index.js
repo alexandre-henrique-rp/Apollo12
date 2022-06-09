@@ -108,7 +108,7 @@ export default function A1PF() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
-        } else if (rgCliente.length < 9) {
+        } else if (rgCliente.length < 7) {
             swal({
                 icon: "error",
                 text: "Campo RG imcompleto",
@@ -170,6 +170,7 @@ export default function A1PF() {
                             width='617px'
                             height='65px'
                             type='text'
+                            name="nome-do-cliente"
                             placeholder='NOME COMPLETO'
                             fontSize='1.5rem'
                             _placeholder={{ fontSize: '2rem' }}
@@ -195,7 +196,7 @@ export default function A1PF() {
                         w="4.5rem"
                         h="4.5rem"
                         onClick={(() => {
-                            const onChangeClear = () => {
+                            const onChangeClear4 = () => {
                                 const inputVal = '';
                                 setInputs({
                                     ...inputs,
@@ -203,8 +204,7 @@ export default function A1PF() {
                                 });
                                 keyboard.current.setInput(inputVal);
                             };
-                            onChangeClear();
-                            setShow(false)
+                            onChangeClear4()
                         })}
                     >
                         <IoMdClose
@@ -255,7 +255,7 @@ export default function A1PF() {
                         w="4.5rem"
                         h="4.5rem"
                         onClick={(() => {
-                            const onChangeClear = () => {
+                            const onChangeClear3 = () => {
                                 const inputVal = '';
                                 setInputs({
                                     ...inputs,
@@ -263,8 +263,7 @@ export default function A1PF() {
                                 });
                                 keyboard.current.setInput(inputVal);
                             };
-                            onChangeClear();
-                            setShow(false)
+                            onChangeClear3();
                         })}
                     >
                         <IoMdClose
@@ -316,7 +315,7 @@ export default function A1PF() {
                         w="4.5rem"
                         h="4.5rem"
                         onClick={(() => {
-                            const onChangeClear = () => {
+                            const onChangeClear2 = () => {
                                 const inputVal = '';
                                 setInputs({
                                     ...inputs,
@@ -324,8 +323,7 @@ export default function A1PF() {
                                 });
                                 keyboard.current.setInput(inputVal);
                             };
-                            onChangeClear();
-                            setShow(false)
+                            onChangeClear2();
                         })}
                     >
                         <IoMdClose
@@ -384,7 +382,7 @@ export default function A1PF() {
                         w="4.5rem"
                         h="4.5rem"
                         onClick={(() => {
-                            const onChangeClear = () => {
+                            const onChangeClear1 = () => {
                                 const inputVal = '';
                                 setInputs({
                                     ...inputs,
@@ -392,8 +390,7 @@ export default function A1PF() {
                                 });
                                 keyboard.current.setInput(inputVal);
                             };
-                            onChangeClear();
-                            setShow(false)
+                            onChangeClear1();
                         })}
                     >
                         <IoMdClose

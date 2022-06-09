@@ -1,18 +1,26 @@
 import React from "react";
 import { Box, chakra, Flex, Heading, Image, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useIdleTimer } from 'react-idle-timer';
 
 
 export default function Fim() {
 
     const nanvigate = useNavigate();
-    
-    localStorage.clear();
-    
+    const timeout = 10 * 1000;
 
-    // setTimeout(() => {
-    //     nanvigate('/01')
-    // }, 10 * 1000);
+    const handleOnIdle = () => {
+        nanvigate('/01')
+        localStorage.clear();
+    };
+    const { getRemainingTime } = useIdleTimer({
+        timeout,
+        onIdle: handleOnIdle
+    });
+    useEffect(() => {
+        getRemainingTime();
+    }, []);
+    
 
     return (
         <>
