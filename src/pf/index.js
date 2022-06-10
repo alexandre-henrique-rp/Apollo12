@@ -16,6 +16,12 @@ import { IoMdClose } from "react-icons/io";
 
 
 
+const UseFocus = () => {
+    const htmlElRef = useRef(null)
+    const setFocus = () => { htmlElRef.current && htmlElRef.current.focus() }
+    return [htmlElRef, setFocus]
+}
+
 
 export default function A1PF() {
 
@@ -29,6 +35,8 @@ export default function A1PF() {
     const [inputName, setInputName] = useState("default");
     const keyboard = useRef();
     const timeout = 2 * 60 * 1000;
+
+    const [nome01, setNome01] = useState('');
 
 
     useEffect(() => {
@@ -64,7 +72,6 @@ export default function A1PF() {
             ...inputs,
             [inputName]: inputVal
         });
-
         keyboard.current.setInput(inputVal);
     };
 
@@ -141,6 +148,21 @@ export default function A1PF() {
         getRemainingTime();
     }, []);
 
+    const [input1Ref, setInput1Focus] = UseFocus()
+    const [input2Ref, setInput2Focus] = UseFocus()
+    const [input3Ref, setInput3Focus] = UseFocus()
+    const [input4Ref, setInput4Focus] = UseFocus()
+
+
+
+    useEffect(() => {
+
+        const valei = inputs.nome === undefined ? '' : inputs.nome;
+        setNome01(valei)
+
+    }, []);
+
+
     return (
         <>
             <Flex
@@ -178,10 +200,8 @@ export default function A1PF() {
                             borderColor='#00713c'
                             focusBorderColor='none'
                             textAlign={'center'}
-                            value={(() => {
-                                const valei = inputs.nome === undefined ? '' : inputs.nome;
-                                return valei;
-                            })()}
+                            ref={input1Ref}
+                            value={nomeCliente}
                             onChange={onChangeInput}
                             onFocus={() => {
                                 setShow(true)
@@ -197,14 +217,18 @@ export default function A1PF() {
                         h="4.5rem"
                         onClick={(() => {
                             const onChangeClear4 = () => {
-                                const inputVal = '';
-                                setInputs({
-                                    ...inputs,
-                                    "nome": inputVal
-                                });
-                                keyboard.current.setInput(inputVal);
+                                if (inputs.nome !== '') {
+                                    setInputs({
+                                        ...inputs,
+                                        nome: ''
+                                    });
+                                    setNome01('')
+                                }
+
                             };
-                            onChangeClear4()
+
+                            onChangeClear4();
+                            setInput1Focus();
                         })}
                     >
                         <IoMdClose
@@ -236,6 +260,7 @@ export default function A1PF() {
                             focusBorderColor='none'
                             textAlign={'center'}
                             maxLength={14}
+                            ref={input2Ref}
                             value={(() => {
                                 const valei1 = inputs.rg === undefined ? '' : inputs.rg;
                                 const valei = valei1.length > 14 ? valei1.substring(0, 14) : valei1;
@@ -264,6 +289,7 @@ export default function A1PF() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear3();
+                            setInput2Focus();
                         })}
                     >
                         <IoMdClose
@@ -295,6 +321,7 @@ export default function A1PF() {
                             focusBorderColor='none'
                             textAlign={'center'}
                             maxLength={12}
+                            ref={input3Ref}
                             value={(() => {
                                 const valei = inputs.cpf === undefined ? '' : inputs.cpf;
                                 const originalVelue = unMask(valei);
@@ -324,6 +351,7 @@ export default function A1PF() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear2();
+                            setInput3Focus();
                         })}
                     >
                         <IoMdClose
@@ -356,6 +384,7 @@ export default function A1PF() {
                                 focusBorderColor='none'
                                 textAlign={'center'}
                                 maxLength={8}
+                                ref={input4Ref}
                                 value={(() => {
                                     const valei = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
                                     const originalVelue = unMask(valei);
@@ -370,7 +399,7 @@ export default function A1PF() {
                             />
                         </InputGroup>
                         <FormHelperText
-                        fontSize='xl'
+                            fontSize='xl'
                         >
                             Exemplo DD / MM / AAAA.
                         </FormHelperText>
@@ -391,6 +420,7 @@ export default function A1PF() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear1();
+                            setInput4Focus();
                         })}
                     >
                         <IoMdClose
@@ -400,7 +430,7 @@ export default function A1PF() {
                         />
                     </Button>
                 </Flex>
-               
+
                 <Flex
                     justifyContent='center'
                 >
@@ -434,10 +464,10 @@ export default function A1PF() {
                             inputName={inputName}
                             layout={{
                                 default: [
-                                    "1 2 3 4 5 6 7 8 9 0 ",
+                                    "1 2 3 4 5 6 7 8 9 0",
                                     "Q W E R T Y U I O P",
                                     'A S D F G H J K L',
-                                    "Z X C V B N M ",
+                                    "Z X C V B N M",
                                     "{space}"
                                 ]
                             }}

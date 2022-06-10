@@ -15,6 +15,13 @@ import { useIdleTimer } from 'react-idle-timer';
 import { IoMdClose } from "react-icons/io";
 
 
+const UseFocus = () => {
+    const htmlElRef = useRef(null)
+    const setFocus = () => { htmlElRef.current && htmlElRef.current.focus() }
+    return [htmlElRef, setFocus]
+}
+
+// const isBoolean = (param) => typeof (param) === "boolean"
 
 
 export default function A1PJ() {
@@ -30,6 +37,8 @@ export default function A1PJ() {
     const [inputName, setInputName] = useState("default");
     const keyboard = useRef();
     const timeout = 2 * 60 * 1000;
+
+    
 
     useEffect(() => {
         setOverlay(<OverlayOne />);
@@ -111,7 +120,7 @@ export default function A1PJ() {
                 closeOnClickOutside: false,
                 closeOnEsc: false,
             });
-        } else if (rgCliente.length < 9) {
+        } else if (rgCliente.length < 7) {
             swal({
                 icon: "error",
                 text: "Campo RG imcompleto",
@@ -160,6 +169,16 @@ export default function A1PJ() {
         getRemainingTime();
     }, []);
 
+
+
+    const [input1Ref, setInput1Focus] = UseFocus()
+    const [input2Ref, setInput2Focus] = UseFocus()
+    const [input3Ref, setInput3Focus] = UseFocus()
+    const [input4Ref, setInput4Focus] = UseFocus()
+    const [input5Ref, setInput5Focus] = UseFocus()
+
+    
+
     return (
         <>
             <Flex
@@ -196,8 +215,9 @@ export default function A1PJ() {
                             borderColor='#00713c'
                             focusBorderColor='none'
                             textAlign={'center'}
+                            ref={input1Ref}
                             value={(() => {
-                                const valei = inputs.nome === undefined ? '' : inputs.nome;       
+                                const valei = inputs.nome === undefined ? '' : inputs.nome;
                                 return valei;
                             })()}
                             onChange={onChangeInput}
@@ -215,15 +235,16 @@ export default function A1PJ() {
                         h="4.5rem"
                         onClick={(() => {
                             const onChangeClear = () => {
-                                const inputVal = '';
-                                setInputs({
-                                    ...inputs,
-                                    "nome": inputVal
-                                });
-                                keyboard.current.setInput(inputVal);
+                                if (inputs.nome !== '') {
+                                    setInputs({
+                                        ...inputs,
+                                        nome: ''
+                                    }); 
+                                }
+
                             };
                             onChangeClear();
-                            setShow(false)
+                            setInput1Focus()
                         })}
                     >
                         <IoMdClose
@@ -255,12 +276,13 @@ export default function A1PJ() {
                             focusBorderColor='none'
                             textAlign={'center'}
                             maxLength={14}
+                            ref={input2Ref}
                             value={(() => {
                                 const valei1 = inputs.rg === undefined ? '' : inputs.rg;
                                 const valei = valei1.length > 14 ? valei1.substring(0, 14) : valei1;
                                 return valei;
                             })()}
-                            onChange={onChangeInput}                                
+                            onChange={onChangeInput}
                             onFocus={() => {
                                 setShow(true)
                                 setInputName("rg");
@@ -283,7 +305,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
-                            setShow(false)
+                            setInput2Focus()
                         })}
                     >
                         <IoMdClose
@@ -315,6 +337,7 @@ export default function A1PJ() {
                             focusBorderColor='none'
                             textAlign={'center'}
                             maxLength={12}
+                            ref={input3Ref}
                             value={(() => {
                                 const valei = inputs.cpf === undefined ? '' : inputs.cpf;
                                 const originalVelue = unMask(valei);
@@ -344,7 +367,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
-                            setShow(false)
+                            setInput3Focus()
                         })}
                     >
                         <IoMdClose
@@ -377,6 +400,7 @@ export default function A1PJ() {
                                 focusBorderColor='none'
                                 textAlign={'center'}
                                 maxLength={8}
+                                ref={input4Ref}
                                 value={(() => {
                                     const valei = inputs.datanscimento === undefined ? '' : inputs.datanscimento;
                                     const originalVelue = unMask(valei);
@@ -412,7 +436,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
-                            setShow(false)
+                            setInput4Focus()
                         })}
                     >
                         <IoMdClose
@@ -445,6 +469,7 @@ export default function A1PJ() {
                             focusBorderColor='none'
                             textAlign={'center'}
                             maxLength={14}
+                            ref={input5Ref}
                             value={(() => {
                                 const valei = inputs.cnpj === undefined ? '' : inputs.cnpj;
                                 const originalVelue = unMask(valei);
@@ -474,7 +499,7 @@ export default function A1PJ() {
                                 keyboard.current.setInput(inputVal);
                             };
                             onChangeClear();
-                            setShow(false)
+                            setInput5Focus()
                         })}
                     >
                         <IoMdClose

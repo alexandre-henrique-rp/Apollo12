@@ -15,8 +15,6 @@ export default function Template({ children }) {
         nanvigate("/01");
     }, []);
     
-    
-    console.log(window.location.href)
     return (
         <>
             <Box
