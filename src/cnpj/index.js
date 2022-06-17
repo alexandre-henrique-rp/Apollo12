@@ -80,7 +80,7 @@ export default function CNPJ() {
         getRemainingTime();
     }, []);
 
-    const validCnpj = cnpj.isValid(cnpj);
+    const validCnpj = cnpj.isValid(Cnpj);
 
     function salvarCNPJ() {
         if (Cnpj === '') {
