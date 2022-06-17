@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Box, Button, Flex, Image } from "@chakra-ui/react";
 import { IoMdArrowBack, IoMdClose } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 
 
 
@@ -46,7 +46,13 @@ export default function Template({ children }) {
                         rounded={40}
                         _hover={{ bg: '#00A853', color: '#01532C' }}
                         color='white'
-                        onClick={() => window.history.back()}
+                        onClick={() => {
+                            if (window.location.pathname === "/01") {
+                                nanvigate("/01")
+                            } else {
+                                window.history.back()
+                            }
+                        }}
                     >
                         <IoMdArrowBack fontSize='50' />
                     </Button>
@@ -57,7 +63,10 @@ export default function Template({ children }) {
                         _hover={{ bg: '#00A853', color: '#01532C' }}
                         color='white'
                         rounded={40}
-                        onClick={() => nanvigate("/pf")}
+                        onClick={() => {
+                            nanvigate("/01")
+                            localStorage.clear()
+                        }}
                     >
                         <IoMdClose fontSize='50' />
                     </Button>

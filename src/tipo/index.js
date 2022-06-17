@@ -32,7 +32,7 @@ export default function TipoDeCertificado() {
         localStorage.setItem('tipoDeCertificado', 'A1PF')
     
         setTimeout(() => {
-            nanvigate('/pf');
+            nanvigate('/agenda');
         }, 100);
     }
 
@@ -41,7 +41,7 @@ export default function TipoDeCertificado() {
         localStorage.setItem('tipoDeCertificado', 'A1PJ');
         
         setTimeout(() => {
-            nanvigate('/pj');
+            nanvigate('/08');
         }, 100);
     }
 

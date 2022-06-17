@@ -34,8 +34,6 @@ export default function Resumo() {
     const cpf = setcpf === undefined ? '' : setcpf;
     const setcnpj = localStorage.getItem('cnpj')
     const cnpj = setcnpj === undefined ? '' : setcnpj;
-    const setrg = localStorage.getItem('rg')
-    const rg = setrg === undefined ? '' : setrg;
     const setdataNascimento = localStorage.getItem('dtNs')
     const dataNascimento = setdataNascimento === undefined ? '' : setdataNascimento;
     const settelefone = localStorage.getItem('telefone')
@@ -46,6 +44,8 @@ export default function Resumo() {
     const dataAg = setdata === undefined ? '' : setdata;
     const sethora = localStorage.getItem('hora')
     const hora = sethora === undefined ? '' : sethora;
+
+    const dtNsV2 = localStorage.getItem('dtNsV');
 
 
     const clienteHttp = axios.create({
@@ -114,7 +114,6 @@ export default function Resumo() {
             nome: nome,
             cpf: cpf,
             cnpj: cnpj,
-            rg: rg,
             dtnascimento: dtnascimento,
             telefone: telefone,
             tipocd: tipoCd,
@@ -211,7 +210,7 @@ export default function Resumo() {
                 </Flex>
                 <Flex justifyContent='space-between' alignItems='center'>
                     <Text fontSize='2xl'>Nascimento:</Text>
-                    <Heading as='h3' size='xl'>{nasci}</Heading>
+                    <Heading as='h3' size='xl'>{dtNsV2}</Heading>
                 </Flex>
                 <Flex justifyContent='space-between' alignItems='center'>
                     <Text fontSize='2xl'>CNPJ:</Text>

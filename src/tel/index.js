@@ -204,15 +204,15 @@ export default function Telefone() {
                         mb={10}
                     >
                         <Heading
-                            as='h2'
-                            size='xl'
+                            as='h1'
+                            size='2xl'
                             isTruncated
 
                         >
                             Infome seu whatsApp !!
                         </Heading>
                         <chakra.p
-                            fontSize='xl'
+                            fontSize='2xl'
                         >
                             seu whatsApp é muito importante para video conferencia
                         </chakra.p>

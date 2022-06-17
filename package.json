@@ -1,13 +1,14 @@
 {
-  "name": "apolo",
+  "name": "apollo-12",
+  "description": "Apollo 12 is a video conference scheduling application for toten.",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "watch": "webpack --config webpack.common.js --watch",
     "package-win": "electron-packager . apollo-12 --overwrite --asar --platform=darwin --arch=x64 --icon=public/rede.ico --prune=true --out=release-builds --version-string.CompanyName=Rede Brasil RP --version-string.FileDescription=sistema de agendamento --version-string.ProductName=\"Apolo12\"",
-    "package-linux": "electron-packager . apollo-12 --overwrite --asar --platform=linux --arch=x64 --icon=public/icon.png --prune=true --out=release-builds",
-    "create-installer-win": "node installers/windows/createinstaller.js"
+    "package-linux": "electron-packager . apollo-12 --overwrite --asar --platform=linux --arch=x64 --icon=public/icon2.png --prune=true --out=release-builds",
+    "create-installer-deb": "electron-installer-debian --src release-builds/apollo-12-linux-x64/ --arch amd64 --config debian.json"
   },
   "keywords": [],
   "author": "Alexandre Henrique da Rocha Araújo",
@@ -21,6 +22,7 @@
     "@sideway/pinpoint": "^2.0.0",
     "axios": "^0.27.2",
     "cpf-cnpj-validator": "^1.0.3",
+    "electron-installer-debian": "^3.1.0",
     "framer-motion": "^6.3.6",
     "joi": "^17.6.0",
     "react": "^18.1.0",
