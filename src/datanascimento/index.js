@@ -80,7 +80,11 @@ export default function DATANASC() {
 
     function salvarCNPJ() {
         const dtNs = inputs.datanscimento;
-        
+        const dia = dtNs.substring(0, 2);
+        const mes = dtNs.substring(2, 4);
+        const ano = dtNs.substring(4, 10);
+        const dataNascimento1 = ano + "-" + mes + "-" + dia;
+        const dataNascimento2 = dia + "-" + mes + "-" + ano;
 
         if (dtNs === '' || dtNs === undefined) {
             swal({
@@ -91,18 +95,38 @@ export default function DATANASC() {
                 closeOnEsc: false,
             });
 
+        } else if (dia >= 32) {
+            swal({
+                icon: "error",
+                text: "Data de Nacimento invalida, por favor revise o que foi digitado",
+                dangerMode: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            });
+        } else if (mes >= 13) {
+            swal({
+                icon: "error",
+                text: "Data de Nacimento invalida, por favor revise o que foi digitado",
+                dangerMode: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            });
+        } else if (ano <= 1900) {
+            swal({
+                icon: "error",
+                text: "Data de Nacimento invalida, por favor revise o que foi digitado",
+                dangerMode: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            });
         } else {
             onOpen()
-            const dia = dtNs.substring(0, 2);
-            const mes = dtNs.substring(2, 4);
-            const ano = dtNs.substring(4, 10);
-            const dataNascimento1 = ano + "-" + mes + "-" + dia;
-            const dataNascimento2 = dia + "-" + mes + "-" + ano;
+            
             localStorage.setItem('dtNs', dataNascimento1);
             localStorage.setItem('dtNsV', dataNascimento2);
             setTimeout(() => {
                 nanvigate('/07');
-            }, 150);
+            }, 100);
         }
     }
 
@@ -163,6 +187,15 @@ export default function DATANASC() {
                             <Input
                                 type='text'
                                 h={20}
+                                border='5px solid'
+                                borderColor='#00a055'
+                                rounded={20}
+                                _hover={{
+                                    borderColor: '#00a055'
+                                }}
+                                _before={{
+                                    borderColor: '#00a055'
+                                }}
                                 placeholder='DATA DE NASCIMENTO'
                                 _placeholder={{
                                     fontSize: '4xl',

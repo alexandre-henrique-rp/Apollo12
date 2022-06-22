@@ -238,6 +238,15 @@ export default function Telefone() {
                             <Input
                                 type='tel'
                                 h={20}
+                                border='5px solid'
+                                borderColor='#00a055'
+                                _hover={{
+                                    borderColor: '#00a055'
+                                }}
+                                _before={{
+                                    borderColor: '#00a055'
+                                }}
+                                rounded={20}
                                 placeholder='Telefone'
                                 _placeholder={{
                                     fontSize: '4xl',

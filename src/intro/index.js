@@ -24,6 +24,7 @@ export default function Intro() {
 
     useEffect(() => {
         getRemainingTime();
+        localStorage.clear();
     }, []);
     
     return (

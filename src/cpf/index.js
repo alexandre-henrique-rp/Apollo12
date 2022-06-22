@@ -113,7 +113,7 @@ export default function CPF() {
             localStorage.setItem('cpf', CpfCli);
             setTimeout(() => {
                 nanvigate('/06');
-            }, 150);
+            }, 100);
         }
     }
 
@@ -169,6 +169,15 @@ export default function CPF() {
                             <Input
                                 type='text'
                                 h={20}
+                                border='5px solid'
+                                borderColor='#00a055'
+                                rounded={20}
+                                _hover={{
+                                    borderColor: '#00a055'
+                                }}
+                                _before={{
+                                    borderColor: '#00a055'
+                                }}
                                 placeholder='CPF'
                                 _placeholder={{
                                     fontSize: '4xl',

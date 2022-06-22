@@ -30,7 +30,7 @@ export default function TipoDeCertificado() {
     function pf() {
         onOpen()
         localStorage.setItem('tipoDeCertificado', 'A1PF')
-    
+        localStorage.removeItem('cnpj')
         setTimeout(() => {
             nanvigate('/agenda');
         }, 100);
@@ -39,7 +39,6 @@ export default function TipoDeCertificado() {
     function pj() {
         onOpen()
         localStorage.setItem('tipoDeCertificado', 'A1PJ');
-        
         setTimeout(() => {
             nanvigate('/08');
         }, 100);
@@ -53,8 +52,12 @@ export default function TipoDeCertificado() {
         timeout,
         onIdle: handleOnIdle
     });
+
+   
+
     useEffect(() => {
         getRemainingTime();
+        
     }, []);
 
     return (

@@ -153,6 +153,15 @@ export default function NOME() {
                             <Input
                                 type='text'
                                 h={20}
+                                border='5px solid'
+                                borderColor='#00a055'
+                                rounded={20}
+                                _hover={{
+                                    borderColor: '#00a055'
+                                }}
+                                _before={{
+                                    borderColor: '#00a055'
+                                }}
                                 placeholder='Nome completo'
                                 _placeholder={{
                                     fontSize: '4xl',
