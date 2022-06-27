@@ -88,7 +88,7 @@ export default function Resumo() {
             onOpen()
             const controller = new AbortController();
             clienteHttp.get(`/roboscrap/${cnpj}`, {
-                timeout: 1000 * 17,
+                timeout: 1000 * 16,
                 signal: controller.signal
             })
                 .then(function (response) {

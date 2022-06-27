@@ -76,19 +76,15 @@ export default function NOME() {
         onIdle: handleOnIdle
     });
 
-
-
     const clienteHttp = axios.create({
         baseURL: "https://totemapi.redebrasilrp.com.br"
     });
-
     // const clienteHttp = axios.create({
     //     baseURL: 'http://localhost:3040/',
     // });
 
     const controller = new AbortController();
     function tesetConection() {
-        onOpen()
         clienteHttp.get("/teste/conexao", {
             timeout: 1000 * 8,
             signal: controller.signal
@@ -99,7 +95,6 @@ export default function NOME() {
                     console.log("conex fall");
                 } else {
                     console.log("esta conectado");
-                    onClose()
                 }
                 console.log("esta conectado");
             })
@@ -119,7 +114,7 @@ export default function NOME() {
             })
 
     }
-
+    
     function salvarCNPJ() {
         if (Nome === '') {
             swal({
