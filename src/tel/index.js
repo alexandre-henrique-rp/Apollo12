@@ -71,8 +71,6 @@ export default function Telefone() {
         var nuber = 55 + inputs.telefone;
         console.log("nuber", nuber);
         TemZap(nuber);
-
-
     }
 
     function TemZap(nuber) {

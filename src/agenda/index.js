@@ -31,11 +31,15 @@ export default function Agenda() {
         baseURL: "https://totemapi.redebrasilrp.com.br/"
     });
 
+    // const clienteHttp = axios.create({
+    //     baseURL: 'http://localhost:3040/',
+    // });
+
+    
     const nanvigate = useNavigate();
     const timeout = 2 * 60 * 1000;
 
-    //Data------------------------------------------------
-
+    //Data---------------------------------------------
     var dataI = new Date();
     var dia = dataI.getDate();
     var mes = dataI.getMonth() + 1;
@@ -47,9 +51,10 @@ export default function Agenda() {
 
     function getData() {
         clienteHttp.get("calendar").then(function (response) {
-            console.log(response.data);
-            setDate(response.data);
-        });
+                console.log(response.data);
+                setDate(response.data);
+            })
+
     }
     const util1 = date.filter(
         (u) => u.dia_semana !== "sábado" && u.dia_semana !== "domingo"
@@ -227,7 +232,7 @@ export default function Agenda() {
                 <Box mt={10} h={10}>
                     <Flex w="70vw" justifyContent="space-around">
                         <Box hidden={seletD !== "" ? false : true}>
-                            Dia Agendado: {seletD}
+                            Dia Agendado: {seletDV}
                         </Box>
                         <Box hidden={seletH !== "" ? false : true}>
                             Horario Agendado {seletH}

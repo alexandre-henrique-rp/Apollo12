@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useIdleTimer } from 'react-idle-timer';
 import { IoMdClose } from "react-icons/io";
 import { GoPerson } from "react-icons/go";
+import axios from "axios";
 
 
 
@@ -75,11 +76,49 @@ export default function NOME() {
         onIdle: handleOnIdle
     });
 
-    useEffect(() => {
-        getRemainingTime();
-    }, []);
 
 
+    const clienteHttp = axios.create({
+        baseURL: "https://totemapi.redebrasilrp.com.br"
+    });
+
+    // const clienteHttp = axios.create({
+    //     baseURL: 'http://localhost:3040/',
+    // });
+
+    const controller = new AbortController();
+    function tesetConection() {
+        onOpen()
+        clienteHttp.get("/teste/conexao", {
+            timeout: 1000 * 8,
+            signal: controller.signal
+        })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    controller.abort()
+                    console.log("conex fall");
+                } else {
+                    console.log("esta conectado");
+                    onClose()
+                }
+                console.log("esta conectado");
+            })
+            .catch((e) => {
+                console.log('erro de conexão')
+                onClose()
+                swal({
+                    icon: "error",
+                    text: "Ops estamos con dificuldade de comunicação com o servider, continue pelo whatsapp, ou lige para (16) 3325-4134",
+                    dangerMode: true,
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                });
+                setTimeout(() => {
+                    nanvigate('/01')
+                }, 3 * 1000)
+            })
+
+    }
 
     function salvarCNPJ() {
         if (Nome === '') {
@@ -99,6 +138,11 @@ export default function NOME() {
             }, 150);
         }
     }
+
+    useEffect(() => {
+        getRemainingTime();
+        tesetConection()
+    }, []);
 
     return (
         <>
@@ -131,7 +175,7 @@ export default function NOME() {
                             textAlign='center'
                         >
                             Imforme seu nome clompleto para continuar
-                            
+
                         </chakra.p>
                     </Flex>
                     <Box

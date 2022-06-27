@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, chakra, Flex, Heading, Image, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from 'react-idle-timer';

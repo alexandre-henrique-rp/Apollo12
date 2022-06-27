@@ -17,7 +17,9 @@ import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from 'react-idle-timer';
 
 const id = 16
-const id_local = 'TOTEM 01 - TOTEM DE TESTE'
+const TotemName = "TOTEM 01"
+const id_local = TotemName + ' - TOTEM DE TESTE'
+const id_contador = 'REDEBRASILRP';
 
 export default function Resumo() {
 
@@ -47,10 +49,10 @@ export default function Resumo() {
 
     const dtNsV2 = localStorage.getItem('dtNsV');
 
-
     const clienteHttp = axios.create({
         baseURL: 'https://totemapi.redebrasilrp.com.br/',
     });
+
     // const clienteHttp = axios.create({
     //     baseURL: 'http://localhost:3040/',
     // });
@@ -68,23 +70,15 @@ export default function Resumo() {
     var Diaag = Diaag1.length === 1 ? '0' + Diaag1 : Diaag1;
     var Mesag = Data.substring(5, 7);
     var Anoag = Data.substring(0, 4);
-    var DiaNasc1 = Datanasc.substring(0, 2);
-    var DiaNasc = DiaNasc1.length === 1 ? '0' + DiaNasc1 : DiaNasc1;
-    var MesNasc = Datanasc.substring(2, 4);
-    var AnoNasc = Datanasc.substring(4, 8);
 
     const dataAgendadamento1 = Diaag + "/" + Mesag + "/" + Anoag + "-" + hora;
     const dataAgendadamento = setdata === undefined ? '' : dataAgendadamento1;
-    const nasci1 = DiaNasc + "/" + MesNasc + "/" + AnoNasc;
-    const nasci = setdataNascimento === undefined ? '' : nasci1;
 
-    const dtnascimento = AnoNasc + "-" + MesNasc + "-" + DiaNasc;
     const agend = Anoag + "-" + Mesag + "-" + Diaag;
     const valor = tipoCd === 'A1PF' ? totem.a1pf_12m : totem.a1pj_12m
 
     const price1 = `R$ ${valor},00`
     const price = valor === undefined ? 'R$ 0,00' : price1
-
     async function getcnpj() {
         if (tipoCd === 'A1PF') {
             setTimeout(() => {
@@ -92,12 +86,26 @@ export default function Resumo() {
             }, 50);
         } else {
             onOpen()
-            setTimeout(() => {
-                onClose()
-            }, 300);
-            const response = await clienteHttp.get(`/roboscrap/${cnpj}`);
-            console.log(response.data);
-            setRazaoSocial(response.data)
+            const controller = new AbortController();
+            clienteHttp.get(`/roboscrap/${cnpj}`, {
+                timeout: 1000 * 17,
+                signal: controller.signal
+            })
+                .then(function (response) {
+                    if (response.status !== 200) {
+                        controller.abort()
+                        console.log("conex fall");
+                        onClose()
+                    } else {
+                        console.log(response.data);
+                        setRazaoSocial(response.data)
+                        onClose()
+                    }
+                })
+                .catch((e) => {
+                    console.log('erro de conexão')
+                    onClose()
+                })
         }
     }
 
@@ -107,24 +115,36 @@ export default function Resumo() {
     }
 
     const id_obs = `O AGENDAMENTO FOI EFETUADO PELO TOTEM DE AUTOATENDIMENTO (${id_local}), PARA O CLIENTE ${nome} COM O TELEFONE ${telefone}, FICAR ATENTO AO HORARIO DE ATENDIMENTO, E AS INFORMACOES REGISTRADAS, NAO ESQUECENDO DE PESQUISAR SE O CLIENTE TEM MATRICULA CEI.`;
-    
+
     function registro() {
+        var dataI = new Date();
+        var dia = dataI.getDate();
+        var mes = dataI.getMonth() + 1;
+        var ano = dataI.getFullYear();
+        var horario = dataI.getHours()
+        var minuto = dataI.getMinutes()
+        var seg = dataI.getSeconds()
+        var hist = dia + '-' + mes + '-' + ano + '.' + horario + ':' + minuto + ':' + seg + '-' + TotemName + ':criou_FC.';
+
         return response = clienteHttp.post('/cadastrar/cliente', {
             dt_agenda: agend,
-            nome: nome,
             cpf: cpf,
+            andamento: 'AGENDADO',
+            nome: nome,
             cnpj: cnpj,
-            dtnascimento: dtnascimento,
-            telefone: telefone,
+            unidade: id,
             tipocd: tipoCd,
             hr_agenda: hora,
-            razaosocial: razaoSocial,
-            andamento: 'AGENDADO',
-            unidade: id,
             valorcd: price,
-            estatos_pgto: 'Falta Pgto',
+            telefone: telefone,
+            dtnascimento: Datanasc,
+            razaosocial: razaoSocial,
             obscont: id_local,
+            estatos_pgto: 'Falta Pgto',
             observacao: id_obs,
+            contador: id_contador,
+            historico: hist,
+            validacao: 'VIDEO CONF'
         })
             .then(function (response) {
                 console.log(response.data)
@@ -269,7 +289,7 @@ export default function Resumo() {
                     rounded={40}
                     onClick={pagar}
                 >
-                   Finalizar
+                    Finalizar
                 </Button>
             </Flex>
             <Modal

@@ -79,6 +79,9 @@ export default function DATANASC() {
 
 
     function salvarCNPJ() {
+        var dataI = new Date();
+        var anoA = dataI.getFullYear();
+
         const dtNs = inputs.datanscimento;
         const dia = dtNs.substring(0, 2);
         const mes = dtNs.substring(2, 4);
@@ -112,6 +115,14 @@ export default function DATANASC() {
                 closeOnEsc: false,
             });
         } else if (ano <= 1900) {
+            swal({
+                icon: "error",
+                text: "Data de Nacimento invalida, por favor revise o que foi digitado",
+                dangerMode: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            });
+        } else if (ano > anoA) {
             swal({
                 icon: "error",
                 text: "Data de Nacimento invalida, por favor revise o que foi digitado",
