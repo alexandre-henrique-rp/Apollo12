@@ -216,13 +216,22 @@ export default function Agenda() {
                     Agendamento
                 </Heading>
                 <chakra.p mt={8} fontSize="2xl">
-                    Informe a data e o hora, para fazer a video comferencia
+                    selecione uma data, e depois hora, para fazer a video comferencia
                 </chakra.p>
                 <Select
                     placeholder="Seleciona uma data"
                     w="45vw"
                     h="5vh"
                     mt={5}
+                    border='5px solid'
+                    borderColor='#00a055'
+                    rounded={20}
+                    _hover={{
+                        borderColor: '#00a055'
+                    }}
+                    _before={{
+                        borderColor: '#00a055'
+                    }}
                     size="lg"
                     fontSize="3xl"
                     onChange={SeteData}

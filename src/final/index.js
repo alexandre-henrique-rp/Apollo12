@@ -7,7 +7,7 @@ import { useIdleTimer } from 'react-idle-timer';
 export default function Fim() {
 
     const nanvigate = useNavigate();
-    const timeout = 10 * 1000;
+    const timeout = 50 * 1000;
 
     const handleOnIdle = () => {
         nanvigate('/01')
