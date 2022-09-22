@@ -167,7 +167,7 @@ export default function Agenda() {
     const [overlay, setOverlay] = useState(<OverlayOne />);
 
     //Salvar --------------------------------------------
-    console.log(seletD);
+    
     function salvar() {
         onOpen();
         localStorage.setItem("data", seletD);
@@ -239,14 +239,14 @@ export default function Agenda() {
                     {renderD}
                 </Select>
                 <Box mt={10} h={10}>
-                    <Flex w="70vw" justifyContent="space-around">
+                    {/* <Flex w="70vw" justifyContent="space-around">
                         <Box hidden={seletD !== "" ? false : true}>
-                            Dia Agendado: {seletDV}
+                            Dia Agendado: {seletD}
                         </Box>
                         <Box hidden={seletH !== "" ? false : true}>
                             Horario Agendado {seletH}
                         </Box>
-                    </Flex>
+                    </Flex> */}
                 </Box>
                 <Flex mt={10} w="85vw" justifyContent="space-around">
                     <Button

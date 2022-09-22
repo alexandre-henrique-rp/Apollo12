@@ -205,7 +205,12 @@ export default function NOME() {
                                 _placeholder={{
                                     fontSize: '4xl',
                                 }}
-                                fontSize='4xl'
+                                // fontSize='3xl'
+                                fontSize={(() => {
+                                    const fonttt = Nome;
+                                    const sizeft = fonttt.length <= 25 ? "3xl" : "xl";
+                                    return sizeft;
+                                })()}
                                 textAlign='center'
                                 value={(() => {
                                     const valei = inputs.nome === undefined ? '' : inputs.nome;

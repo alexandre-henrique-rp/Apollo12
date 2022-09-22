@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from "react-idle-timer";
 
-const id = 16;
+const id = 7;
 const TotemName = "TOTEM 01";
 const id_local = TotemName + " - TOTEM DE TESTE";
 const id_contador = "REDEBRASILRP";
@@ -58,13 +58,13 @@ export default function Resumo() {
 
   const dtNsV2 = localStorage.getItem("dtNsV");
 
-  const clienteHttp = axios.create({
-    baseURL: "https://totemapi.redebrasilrp.com.br/"
-  });
+//   const clienteHttp = axios.create({
+//     baseURL: "https://totemapi.redebrasilrp.com.br/"
+//   });
 
-  // const clienteHttp = axios.create({
-  //     baseURL: 'http://localhost:3040/',
-  // });
+  const clienteHttp = axios.create({
+      baseURL: 'http://localhost:3040/',
+  });
 
   async function getUsuarios() {
     const response = await clienteHttp.get(`/totem/${id}`);
@@ -80,7 +80,7 @@ export default function Resumo() {
     cpf.substring(6, 9) +
     "-" +
     cpf.substring(9, 11);
-  console.log(cpfMask);
+  
 
   var Diaag1 = Data.substring(8, 10);
   var Diaag = Diaag1.length === 1 ? "0" + Diaag1 : Diaag1;
@@ -100,9 +100,7 @@ export default function Resumo() {
       setTimeout(() => {
         onClose();
       }, 50);
-    } else {
-        onOpen();
-        
+    } else {        
       fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`)
         .then((response) => response.json())
         .then((response) => {

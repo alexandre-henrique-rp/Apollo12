@@ -14,6 +14,9 @@ export default function Intro() {
     function handleClick() {
         nanvigate("/02");
     };
+    function handleClick2() {
+        nanvigate("/sorteio");
+    };
 
     const clienteHttp = axios.create({
         baseURL: "https://totemapi.redebrasilrp.com.br"
@@ -35,7 +38,6 @@ export default function Intro() {
                 } else {
                     console.log("esta conectado");
                 }
-                console.log("esta conectado");
             })
             .catch((e) => {
                 console.log('erro de conexão')
@@ -69,6 +71,7 @@ export default function Intro() {
                 justifyContent='center'
                 alignItems='center'
                 alignContent='center'
+                gap={10}
             >
 
                 <Button
@@ -86,6 +89,23 @@ export default function Intro() {
 
                 >
                     INICIAR
+                </Button>
+                <Button
+
+                    size='xl'
+                    height='70px'
+                    width='500px'
+                    border='2px solid #00713C'
+                    bg='#00713C'
+                    _hover={{ bg: '#00A853', border: '2px solid #00A853', color: '#01532C' }}
+                    color='white'
+                    fontSize='2rem'
+                    rounded={20}
+                    onClick={handleClick2}
+                    textTransform='uppercase'
+
+                >
+                    roleta de prêmios
                 </Button>
 
             </Flex>

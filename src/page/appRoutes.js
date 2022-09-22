@@ -12,6 +12,7 @@ import NOME from '../nome/index'
 import DATANASC from '../datanascimento/index'
 import CPF from '../cpf/index'
 import CNPJ from '../cnpj/index'
+import Roleta from "../roleta";
 // import RG from '../rg/index'
 
 
@@ -24,7 +25,6 @@ export default function AppRoutes() {
                     <Route path="/01" element={<Intro />} />
                     <Route path="/02" element={<Telefone />} />
                     <Route path="/03" element={<NOME />} />
-                    {/* <Route path="/04" element={<RG />} /> */}
                     <Route path="/05" element={<CPF />} />
                     <Route path="/06" element={<DATANASC />} />
                     <Route path="/07" element={<Tipo/>} />
@@ -32,6 +32,7 @@ export default function AppRoutes() {
                     <Route path="/agenda" element={<Agenda />} />
                     <Route path="/resumo" element={<Resumo />} />
                     <Route path="/fim" element={<Fim />} />
+                    <Route path="/sorteio" element={<Roleta />} />
                </Routes>
           </>
      );
