@@ -17,6 +17,9 @@ export default function Intro() {
     function handleClick2() {
         nanvigate("/sorteio");
     };
+    function handleClick3() {
+        nanvigate("/alexa");
+    };
 
     const clienteHttp = axios.create({
         baseURL: "https://totemapi.redebrasilrp.com.br"
@@ -73,9 +76,7 @@ export default function Intro() {
                 alignContent='center'
                 gap={10}
             >
-
                 <Button
-
                     size='xl'
                     height='70px'
                     width='500px'
@@ -86,12 +87,10 @@ export default function Intro() {
                     fontSize='2rem'
                     rounded={20}
                     onClick={handleClick}
-
                 >
                     INICIAR
                 </Button>
                 <Button
-
                     size='xl'
                     height='70px'
                     width='500px'
@@ -103,9 +102,23 @@ export default function Intro() {
                     rounded={20}
                     onClick={handleClick2}
                     textTransform='uppercase'
-
                 >
                     roleta de prêmios
+                </Button>
+                <Button
+                    size='xl'
+                    height='70px'
+                    width='500px'
+                    border='2px solid #00713C'
+                    bg='#00713C'
+                    _hover={{ bg: '#00A853', border: '2px solid #00A853', color: '#01532C' }}
+                    color='white'
+                    fontSize='2rem'
+                    rounded={20}
+                    onClick={handleClick3}
+                    textTransform='uppercase'
+                >
+                    Sorteio Alexa
                 </Button>
 
             </Flex>

@@ -13,8 +13,7 @@ import DATANASC from '../datanascimento/index'
 import CPF from '../cpf/index'
 import CNPJ from '../cnpj/index'
 import Roleta from "../roleta";
-// import RG from '../rg/index'
-
+import Alexa from "../alexa";
 
 export default function AppRoutes() {
 
@@ -33,6 +32,7 @@ export default function AppRoutes() {
                     <Route path="/resumo" element={<Resumo />} />
                     <Route path="/fim" element={<Fim />} />
                     <Route path="/sorteio" element={<Roleta />} />
+                    <Route path="/alexa" element={<Alexa />} />
                </Routes>
           </>
      );
