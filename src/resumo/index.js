@@ -58,13 +58,13 @@ export default function Resumo() {
 
   const dtNsV2 = localStorage.getItem("dtNsV");
 
-//   const clienteHttp = axios.create({
-//     baseURL: "https://totemapi.redebrasilrp.com.br/"
-//   });
-
   const clienteHttp = axios.create({
-      baseURL: 'http://localhost:3040/',
+    baseURL: "https://totemapi.redebrasilrp.com.br/"
   });
+
+  // const clienteHttp = axios.create({
+  //     baseURL: 'http://localhost:3040/',
+  // });
 
   async function getUsuarios() {
     const response = await clienteHttp.get(`/totem/${id}`);
@@ -72,14 +72,14 @@ export default function Resumo() {
     setTotem(response.data);
   }
 
-  var cpfMask =
-    cpf.substring(0, 3) +
-    "." +
-    cpf.substring(3, 6) +
-    "." +
-    cpf.substring(6, 9) +
-    "-" +
-    cpf.substring(9, 11);
+  // var cpfMask =
+  //   cpf.substring(0, 3) +
+  //   "." +
+  //   cpf.substring(4, 7) +
+  //   "." +
+  //   cpf.substring(8, 11) +
+  //   "-" +
+  //   cpf.substring(12, 15);
   
 
   var Diaag1 = Data.substring(8, 10);
@@ -258,7 +258,7 @@ export default function Resumo() {
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="2xl">CPF:</Text>
           <Heading as="h3" size="xl">
-            {cpfMask}
+            {cpf}
           </Heading>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">

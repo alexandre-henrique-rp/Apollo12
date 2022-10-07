@@ -84,8 +84,8 @@ export default function DATANASC() {
 
         const dtNs = inputs.datanscimento;
         const dia = dtNs.substring(0, 2);
-        const mes = dtNs.substring(2, 4);
-        const ano = dtNs.substring(4, 10);
+        const mes = dtNs.substring(3, 5);
+        const ano = dtNs.substring(6, 10);
         const dataNascimento1 = ano + "-" + mes + "-" + dia;
         const dataNascimento2 = dia + "-" + mes + "-" + ano;
 
