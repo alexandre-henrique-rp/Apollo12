@@ -46,7 +46,8 @@ export default function Agenda() {
     var ano = dataI.getFullYear();
 
     var mesA = mes < "10" ? "0" + mes : mes;
-    var dataAtual1 = ano + "-" + mesA + "-" + dia;
+    var diaA = dia < "10" ? "0" + dia : dia;
+    var dataAtual1 = ano + "-" + mesA + "-" + diaA;
     var dataAtual = dataAtual1.toString();
 
     function getData() {
@@ -60,8 +61,9 @@ export default function Agenda() {
         (u) => u.dia_semana !== "sábado" && u.dia_semana !== "domingo"
     );
     const util2 = util1.filter((u) => u.feriado === "");
-    const AtualPk = util2.filter((d) => d.data === dataAtual).map((a) => a.id);
+    const AtualPk = util2.filter((d) => d.data == dataAtual).map((a) => a.id);
 
+    
     const resultF = AtualPk[0];
     const result1 = resultF + 1;
     const result2 = resultF + 2;
