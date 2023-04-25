@@ -22,7 +22,7 @@ export default function Intro() {
     };
 
     const clienteHttp = axios.create({
-        baseURL: "https://totemapi.redebrasilrp.com.br"
+        baseURL: "https://toten.redebrasilrp.com.br/"
     });
     // const clienteHttp = axios.create({
     //     baseURL: 'http://localhost:3040/',
@@ -35,6 +35,7 @@ export default function Intro() {
             signal: controller.signal
         })
             .then(function (response) {
+                console.log("🚀 ~ file: index.js:38 ~ response:", response)
                 if (response.status !== 200) {
                     controller.abort()
                     console.log("conex fall");
@@ -90,37 +91,6 @@ export default function Intro() {
                 >
                     INICIAR
                 </Button>
-                <Button
-                    size='xl'
-                    height='70px'
-                    width='500px'
-                    border='2px solid #00713C'
-                    bg='#00713C'
-                    _hover={{ bg: '#00A853', border: '2px solid #00A853', color: '#01532C' }}
-                    color='white'
-                    fontSize='2rem'
-                    rounded={20}
-                    onClick={handleClick2}
-                    textTransform='uppercase'
-                >
-                    roleta de prêmios
-                </Button>
-                <Button
-                    size='xl'
-                    height='70px'
-                    width='500px'
-                    border='2px solid #00713C'
-                    bg='#00713C'
-                    _hover={{ bg: '#00A853', border: '2px solid #00A853', color: '#01532C' }}
-                    color='white'
-                    fontSize='2rem'
-                    rounded={20}
-                    onClick={handleClick3}
-                    textTransform='uppercase'
-                >
-                    Sorteio Alexa
-                </Button>
-
             </Flex>
         </>
     )
