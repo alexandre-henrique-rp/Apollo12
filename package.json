@@ -1,7 +1,7 @@
 {
   "name": "apollo-12",
   "description": "Apollo 12 is a video conference scheduling application for toten.",
-  "version": "1.0.45",
+  "version": "1.0.46",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
